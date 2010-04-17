@@ -1,0 +1,94 @@
+(color-theme-twilight)
+
+(require 'maxframe)
+(maximize-frame)
+
+(load-file (concat user-specific-dir "/uptime.el"))
+(uptime-init)
+
+(setq fuel-listener-factor-binary "~/bin/factor/factor")
+(setq fuel-listener-factor-image "~/bin/factor/factor.image")
+
+;; (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+;; (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
+;; (add-to-list 'auto-mode-alist '("\\.arc$" . arc-mode))
+;; (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
+;; (add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
+;; (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+
+(add-hook 'ruby-mode-hook:
+          (lambda()
+	    (ruby-electric-mode t)))
+
+(add-hook 'scheme-mode-hook
+          (lambda()
+	    (paredit-mode t)))
+(add-hook 'emacs-lisp-mode-hook
+          (lambda()
+	    (paredit-mode t)))
+(add-hook 'arc-mode-hook
+          (lambda()
+	    (paredit-mode t)))
+(add-hook 'clojure-mode-hook
+          (lambda()
+	    (paredit-mode t)))
+
+(setq extra-path '("/opt/ruby-enterprise-1.8.7-2009.10/bin" "/Users/mknox/bin" "/opt/local/bin" "/opt/local/sbin" "/usr/local/mysql/bin" "/usr/local/bin"))
+(setenv "PATH" (concat (mapconcat 'identity extra-path ":") ":" (getenv "PATH")))
+(setq exec-path (append extra-path exec-path))
+
+(setq kill-whole-line t)
+
+
+(global-set-key (kbd "C-u") 'forward-sexp)
+(global-set-key (kbd "C-t") 'transpose-sexps)
+(global-set-key (kbd "C-M-t") 'transpose-chars)
+(global-set-key (kbd "C-o") 'backward-sexp)
+(global-set-key (kbd "C-M-u") 'backward-char)
+(global-set-key (kbd "C-n") 'next-line)
+(global-set-key (kbd "C-M-n") 'forward-char)
+(global-set-key (kbd "TAB")  'slime-complete-symbol)
+(global-set-key (kbd "C-TAB")  'lisp-indent-line)
+(global-set-key (kbd "C-w") 'backward-kill-word)
+(global-set-key "\C-x\C-m" 'execute-extended-command)
+(global-set-key "\C-x\C-g" 'magit-status)
+(global-set-key "\C-x\g" 'magit-status)
+(global-set-key [(control x) (control b)] 'electric-buffer-list)
+
+(global-set-key "\C-\M-h" 'backward-kill-word)
+(global-set-key "\M-g" 'goto-line)
+(global-set-key "\C-x\C-r" 'jump-to-register)
+
+(global-set-key "\C-xh" (lambda (url) (interactive "MUrl: ")
+			  (switch-to-buffer (url-retrieve-synchronously url))
+			  (rename-buffer url t)
+			  (html-mode)))
+
+(require 'js-comint)
+(setq inferior-js-program-command "node-repl")
+(add-hook 'js2-mode-hook '(lambda ()
+			    (local-set-key "\C-x\C-e" 'js-send-last-sexp)
+			    (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
+			    (local-set-key "\C-cb" 'js-send-buffer)
+			    (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
+			    (local-set-key "\C-cl" 'js-load-file-and-go)
+			    ))
+
+;; this is necessary for emacs 23, because it uses the alt/option key for meta.
+(setq mac-command-modifier 'meta)
+(set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-12-*-*-*-m-0-iso10646-")
+; use default Mac browser
+(setq browse-url-browser-function 'browse-url-default-macosx-browser)
+
+; delete files by moving them to the OS X trash
+(setq delete-by-moving-to-trash t)
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(eval-after-load "paredit"
+  '(define-key paredit-mode-map (kbd ")")
+     'paredit-close-parenthesis))
+(eval-after-load "paredit"
+  '(define-key paredit-mode-map (kbd "M-)")
+     'paredit-close-parenthesis-and-newline))
+
