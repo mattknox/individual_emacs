@@ -1,8 +1,6 @@
-(color-theme-twilight)
+(color-theme-knoxboard)
 
 (require 'maxframe)
-(maximize-frame)
-
 (load-file (concat user-specific-dir "/uptime.el"))
 (uptime-init)
 
@@ -92,3 +90,5 @@
   '(define-key paredit-mode-map (kbd "M-)")
      'paredit-close-parenthesis-and-newline))
 
+(maximize-frame)
+(split-window-horizontally)

@@ -3986,7 +3986,8 @@ Can be used in your `~/.emacs' file something like this:
                (not (featurep 'noweb-mode)))
       ;; This warning is not given if the `noweb-mode' package is installed.
       (quack-warning "`font-lock-keywords' already set when hook ran."))
-    (quack-install-fontification))
+    ;(quack-install-fontification)
+    )
 
   ;; Die! Die! Die!
   (quack-when-xemacs
