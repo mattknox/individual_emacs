@@ -6,6 +6,7 @@
 
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
+(load-file "~/.emacs.d/mknox/fuel/fu.el")
 
 ;; (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
