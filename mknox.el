@@ -7,15 +7,16 @@
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (load-file "~/.emacs.d/mknox/fuel/fu.el")
+(load-file "~/.emacs.d/mknox/arc/arc.el")
 
 ;; (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
-;; (add-to-list 'auto-mode-alist '("\\.arc$" . arc-mode))
+(add-to-list 'auto-mode-alist '("\\.arc$" . arc-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 
-(add-hook 'ruby-mode-hook:
+(add-hook 'ruby-mode-hook
           (lambda()
 	    (ruby-electric-mode t)))
 
@@ -83,6 +84,14 @@
 (setq delete-by-moving-to-trash t)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+; emacsclient config
+;; (server-start)
+;; (add-hook 'after-init-hook 'server-start)
+;; (add-hook 'server-done-hook
+;; (lambda ()
+;; (shell-command
+;; "screen -r -X select `cat ~/tmp/emacsclient-caller`")))
 
 (eval-after-load "paredit"
   '(define-key paredit-mode-map (kbd ")")
