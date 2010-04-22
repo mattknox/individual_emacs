@@ -8,13 +8,16 @@
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (load-file "~/.emacs.d/mknox/fuel/fu.el")
 (load-file "~/.emacs.d/mknox/arc/arc.el")
+(load-file "~/.emacs.d/mknox/uareg-mode-1.45.6/tuareg.el")
+(load-file "~/.emacs.d/mknox/haskell-mode-2.7.0/haskell-mode.el")
+(load-file "~/.emacs.d/mknox/coffee-mode/coffee-mode.el")
 
 ;; (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
 (add-to-list 'auto-mode-alist '("\\.arc$" . arc-mode))
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
-(add-to-list 'auto-mode-alist '("\x\.coffee$" . coffee-mode))
+(add-to-list 'auto-mode-alist '("\.coffee$" . coffee-mode))
 
 (add-hook 'ruby-mode-hook
           (lambda()
