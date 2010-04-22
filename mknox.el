@@ -8,7 +8,7 @@
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (load-file "~/.emacs.d/mknox/fuel/fu.el")
 (load-file "~/.emacs.d/mknox/arc/arc.el")
-(load-file "~/.emacs.d/mknox/uareg-mode-1.45.6/tuareg.el")
+(load-file "~/.emacs.d/mknox/tuareg-mode-1.45.6/tuareg.el")
 (load-file "~/.emacs.d/mknox/haskell-mode-2.7.0/haskell-mode.el")
 (load-file "~/.emacs.d/mknox/coffee-mode/coffee-mode.el")
 
