@@ -1,27 +1,27 @@
-;; Twilight Colour Theme for Emacs.
+;; Knoxboard Colour Theme for Emacs.
 ;;
-;; Defines a colour scheme resembling that of the original TextMate Twilight colour theme.
+;; Defines a colour scheme resembling that of the TextMate Blackboard colour theme.
 ;; To use add the following to your .emacs file (requires the color-theme package):
 ;;
 ;; (require 'color-theme)
 ;; (color-theme-initialize)
-;; (load-file "~/.emacs.d/twilight-emacs/color-theme-twilight.el")
+;; (load-file "~/.emacs.d/twilight-emacs/color-theme-knoxboard.el")
 ;;
-;; And then (color-theme-twilight) to activate it.
+;; And then (color-theme-knoxboard) to activate it.
 ;;
 ;; Several areas still require improvement such as recognition of code that ruby-mode doesn't
 ;; yet pick up (eg. parent classes), Rails/Merb keywords, or non Ruby code related areas
 ;; (eg. dired, HTML, etc). Please feel free to customize further and send in any improvements,
 ;; patches most welcome.
 ;;
-;; MIT License Copyright (c) 2008 Marcus Crafter <crafterm@redartisan.com>
-;; Credits due to the excellent TextMate Twilight theme
+;; MIT License Copyright (c) 2010 Matt Knox <matthewknox@gmail.com>
+;; Credits due to the excellent twilight and blackboard emacs themes.
 
 (require 'color-theme)
 
 ;;;###autoload
 (defun color-theme-knoxboard ()
-  "Color theme by Marcus Crafter, based off the TextMate Twilight theme, created 2008-04-18"
+  "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04"
   (interactive)
   (color-theme-install
    '(color-theme-twilight
