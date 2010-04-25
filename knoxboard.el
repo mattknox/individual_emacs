@@ -5,7 +5,7 @@
 ;;
 ;; (require 'color-theme)
 ;; (color-theme-initialize)
-;; (load-file "~/.emacs.d/twilight-emacs/color-theme-knoxboard.el")
+;; (load-file "~/.emacs.d/color-theme-knoxboard.el")
 ;;
 ;; And then (color-theme-knoxboard) to activate it.
 ;;
@@ -24,7 +24,7 @@
   "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04"
   (interactive)
   (color-theme-install
-   '(color-theme-twilight
+   '(color-theme-knoxboard
      ((background-color . "black")
       (background-mode . dark)
       (border-color . "black")

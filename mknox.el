@@ -1,8 +1,12 @@
-(color-theme-knoxboard)
-
 (require 'maxframe)
 (load-file (concat user-specific-dir "/uptime.el"))
 (uptime-init)
+
+(autoload 'color-theme-knoxboard "knoxboard" "\
+Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
+\(fn)" t nil)
+
+(color-theme-knoxboard)
 
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
@@ -18,6 +22,13 @@
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\.coffee$" . coffee-mode))
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+
+;; (add-hook 'js2-mode-hook 'moz-minor-mode)
+;; (add-hook 'js2-mode-hook 'esk-paredit-nonlisp)
+;; (add-hook 'js2-mode-hook 'run-coding-hook)
+;; (add-hook 'js2-mode-hook 'idle-highlight)
 
 (add-hook 'ruby-mode-hook
           (lambda()
