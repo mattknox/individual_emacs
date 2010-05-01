@@ -8,6 +8,10 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 
 (color-theme-knoxboard)
 
+(add-to-list 'load-path (concat user-specific-dir "/arc" ))
+(add-to-list 'load-path (concat user-specific-dir "/fuel" ))
+
+
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (load-file "~/.emacs.d/mknox/fuel/fu.el")
@@ -30,7 +34,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (defun js2-custom-setup ()
   (moz-minor-mode 1))
 
-http://wiki.github.com/bard/mozrepl/emacs-integration;; (add-hook 'js2-mode-hook 'moz-minor-mode)
+
 ;; (add-hook 'js2-mode-hook 'esk-paredit-nonlisp)
 ;; (add-hook 'js2-mode-hook 'run-coding-hook)
 ;; (add-hook 'js2-mode-hook 'idle-highlight)
@@ -57,7 +61,7 @@ http://wiki.github.com/bard/mozrepl/emacs-integration;; (add-hook 'js2-mode-hook
 (setq exec-path (append extra-path exec-path))
 
 (setq kill-whole-line t)
-
+(setq ido-case-fold nil)
 
 (global-set-key (kbd "C-u") 'forward-sexp)
 (global-set-key (kbd "C-t") 'transpose-sexps)
@@ -101,7 +105,7 @@ http://wiki.github.com/bard/mozrepl/emacs-integration;; (add-hook 'js2-mode-hook
 
 ; delete files by moving them to the OS X trash
 (setq delete-by-moving-to-trash t)
-
+(setq quack-remap-find-file-bindings-p nil)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ; emacsclient config
