@@ -21,7 +21,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (load-file "~/.emacs.d/mknox/haskell-mode-2.7.0/haskell-mode.el")
 (load-file "~/.emacs.d/mknox/coffee-mode/coffee-mode.el")
 
-;; (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
 (add-to-list 'auto-mode-alist '("\\.arc$" . arc-mode))
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
