@@ -86,5 +86,3 @@ When started, run `scala-mode-hook'.
 
 
 (provide 'scala-mode-auto)
-
-(add-to-list 'load-path "/Users/mknox/.emacs.d/scala")
