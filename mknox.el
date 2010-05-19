@@ -10,7 +10,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 
 (add-to-list 'load-path (concat user-specific-dir "/arc" ))
 (add-to-list 'load-path (concat user-specific-dir "/fuel" ))
-(add-to-list 'load-path (concat user-specific-dir "/scala")
+(add-to-list 'load-path (concat user-specific-dir "/scala"))
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (load-file "~/.emacs.d/mknox/fuel/fu.el")
