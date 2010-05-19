@@ -10,11 +10,11 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 
 (add-to-list 'load-path (concat user-specific-dir "/arc" ))
 (add-to-list 'load-path (concat user-specific-dir "/fuel" ))
-
-
+(add-to-list 'load-path (concat user-specific-dir "/scala")
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (load-file "~/.emacs.d/mknox/fuel/fu.el")
+(load-file "~/.emacs.d/mknox/scala/scala-mode.el")
 (load-file "~/.emacs.d/mknox/arc/inferior-arc.el")
 (load-file "~/.emacs.d/mknox/arc/arc.el")
 (load-file "~/.emacs.d/mknox/tuareg-mode-1.45.6/tuareg.el")
@@ -28,6 +28,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
 
 
 (add-hook 'js2-mode-hook 'js2-custom-setup)
