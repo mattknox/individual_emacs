@@ -41,6 +41,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 ;; (add-hook 'js2-mode-hook 'run-coding-hook)
 ;; (add-hook 'js2-mode-hook 'idle-highlight)
 
+;; need to find something do disable ruby inserting encoding strings
 (add-hook 'ruby-mode-hook
           (lambda()
 	    (ruby-electric-mode t)))
