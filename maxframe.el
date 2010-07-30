@@ -137,12 +137,12 @@ specified by HEIGHT."
   (set-frame-size frame (mf-max-columns width) (mf-max-rows height)))
 
 (defun mf-max-display-pixel-width ()
-  (min (display-pixel-width)
-       (or mf-max-width (display-pixel-width))))
+  (max 800 (min (display-pixel-width)
+                (or mf-max-width (display-pixel-width)))))
 
 (defun mf-max-display-pixel-height ()
-  (min (display-pixel-height)
-       (or mf-max-height (display-pixel-height))))
+  (max 600 (min (display-pixel-height)
+                (or mf-max-height (display-pixel-height)))))
 
 (defun x-maximize-frame ()
   "Maximize the current frame (x or mac only)"
