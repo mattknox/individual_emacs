@@ -32,16 +32,24 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
 (require 'rdebug)
 
+(require 'edit-server)
+; (setq debug-on-error 't)
+; (setq edebug-all-defs 't)
+(setq edit-server-new-frame nil)
+(edit-server-start)
+
 (add-hook 'js2-mode-hook 'js2-custom-setup)
 (defun js2-custom-setup ()
   (moz-minor-mode 1))
 
+(setq js2-basic-offset 2)
 
 ;; (add-hook 'js2-mode-hook 'esk-paredit-nonlisp)
 ;; (add-hook 'js2-mode-hook 'run-coding-hook)
 ;; (add-hook 'js2-mode-hook 'idle-highlight)
 
 ;; need to find something do disable ruby inserting encoding strings
+
 (add-hook 'ruby-mode-hook
           (lambda()
 	    (ruby-electric-mode t)))
