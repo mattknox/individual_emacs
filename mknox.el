@@ -11,6 +11,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (add-to-list 'load-path (concat user-specific-dir "/arc" ))
 (add-to-list 'load-path (concat user-specific-dir "/fuel" ))
 (add-to-list 'load-path (concat user-specific-dir "/scala"))
+(add-to-list 'load-path (concat user-specific-dir "/w3m"))
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (load-file "~/.emacs.d/elpa/yaml-mode-0.0.5/yaml-mode.el")
@@ -22,6 +23,16 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (load-file "~/.emacs.d/mknox/haskell-mode-2.7.0/haskell-mode.el")
 (load-file "~/.emacs.d/mknox/coffee-mode/coffee-mode.el")
 (load-file "~/.emacs.d/mknox/twittering-mode/twittering-mode.el")
+
+(require 'w3m-load)
+(require 'w3m-e21)
+(provide 'w3m-e23)
+
+(setq browse-url-browser-function 'w3m-browse-url)
+(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
+;; optional keyboard short-cut
+(global-set-key "\C-xm" 'browse-url-at-point)
+(setq w3m-use-cookies t)
 
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
@@ -88,6 +99,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-set-key "\C-x\C-g" 'magit-status)
 (global-set-key "\C-x\g" 'magit-status)
+(global-set-key "\M-t" 'textmate-goto-symbol)
 (global-set-key [(control x) (control b)] 'electric-buffer-list)
 
 (global-set-key "\C-\M-h" 'backward-kill-word)
@@ -104,7 +116,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (add-hook 'js2-mode-hook '(lambda ()
 			    (local-set-key "\C-x\C-e" 'js-send-last-sexp)
 			    (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
-			    (local-set-key "\C-cb" 'js-send-buffer)
+			    (local-set-key "\C-cb" 'js-send-buffer)k
 			    (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
 			    (local-set-key "\C-cl" 'js-load-file-and-go)
 			    ))
@@ -134,6 +146,20 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (eval-after-load "paredit"
   '(define-key paredit-mode-map (kbd "M-)")
      'paredit-close-parenthesis-and-newline))
+
+(set-frame-parameter (selected-frame) 'alpha '(98 96))
+(add-to-list 'default-frame-alist '(alpha 98 96))
+
+(eval-when-compile (require 'cl))
+ (defun toggle-transparency ()
+   (interactive)
+   (if (/=
+        (cadr (frame-parameter nil 'alpha))
+        100)
+       (set-frame-parameter nil 'alpha '(100 100))
+     (set-frame-parameter nil 'alpha '(85 50))))
+(global-set-key (kbd "C-c t") 'toggle-transparency)
+
 
 (maximize-frame)
 (split-window-horizontally)
