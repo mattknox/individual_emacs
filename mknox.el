@@ -62,10 +62,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 
 ;; need to find something do disable ruby inserting encoding strings
 
-(add-hook 'ruby-mode-hook
-          (lambda()
-	    (ruby-electric-mode t)))
-
+(add-hook 'ruby-mode-hook 'ruby-electric-mode)
 (add-hook 'scheme-mode-hook
           (lambda()
 	    (paredit-mode t)))
@@ -85,6 +82,8 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 
 (setq kill-whole-line t)
 (setq ido-case-fold nil)
+(column-number-mode)
+
 
 (global-set-key (kbd "C-u") 'forward-sexp)
 (global-set-key (kbd "C-t") 'transpose-sexps)
