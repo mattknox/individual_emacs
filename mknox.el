@@ -12,6 +12,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (add-to-list 'load-path (concat user-specific-dir "/fuel" ))
 (add-to-list 'load-path (concat user-specific-dir "/scala"))
 (add-to-list 'load-path (concat user-specific-dir "/w3m"))
+(add-to-list 'load-path (concat user-specific-dir "/zencoding"))
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (load-file "~/.emacs.d/elpa/yaml-mode-0.0.5/yaml-mode.el")
@@ -23,6 +24,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (load-file "~/.emacs.d/mknox/haskell-mode-2.7.0/haskell-mode.el")
 (load-file "~/.emacs.d/mknox/coffee-mode/coffee-mode.el")
 (load-file "~/.emacs.d/mknox/twittering-mode/twittering-mode.el")
+(load-file "~/.emacs.d/mknox/zencoding/zencoding-mode.el")
 
 (require 'w3m-load)
 (require 'w3m-e21)
@@ -84,6 +86,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (setq ido-case-fold nil)
 (column-number-mode)
 
+(setq ns-pop-up-frames nil)
 
 (global-set-key (kbd "C-u") 'forward-sexp)
 (global-set-key (kbd "C-t") 'transpose-sexps)
@@ -132,7 +135,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ; emacsclient config
-;; (server-start)
+(server-start)
 ;; (add-hook 'after-init-hook 'server-start)
 ;; (add-hook 'server-done-hook
 ;; (lambda ()
