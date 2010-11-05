@@ -108,7 +108,7 @@ colorization."
 
 (defface erb-face
   '((((class color) (min-colors 88) (background dark))
-     :background "#383838")
+     :background "#181818")
     (((class color) (min-colors 88) (background light))
      ;; :background "azure")
      :background "snow2")

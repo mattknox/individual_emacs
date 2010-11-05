@@ -10,6 +10,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 
 (add-to-list 'load-path (concat user-specific-dir "/arc" ))
 (add-to-list 'load-path (concat user-specific-dir "/fuel" ))
+(add-to-list 'load-path (concat user-specific-dir "/rhtml" ))
 (add-to-list 'load-path (concat user-specific-dir "/scala"))
 (add-to-list 'load-path (concat user-specific-dir "/w3m"))
 (add-to-list 'load-path (concat user-specific-dir "/zencoding"))
