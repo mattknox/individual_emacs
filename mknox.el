@@ -153,6 +153,9 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (add-to-list 'default-frame-alist '(alpha 98 96))
 (setq save-abbrevs nil) ; don't bug me about saving ~/.abbrev_defs
 
+(require 'rhtml-mode)
+(add-hook 'rhtml-mode-hook
+     	  (lambda () (rinari-launch)))
 (eval-when-compile (require 'cl))
  (defun toggle-transparency ()
    (interactive)
