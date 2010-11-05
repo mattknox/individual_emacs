@@ -45,6 +45,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (add-to-list 'auto-mode-alist '("\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
+(add-to-list 'auto-mode-alist '("\\.html.erb$" . rhtml-mode))
 (require 'rdebug)
 
 (require 'edit-server)
