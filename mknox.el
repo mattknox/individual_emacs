@@ -151,6 +151,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 
 (set-frame-parameter (selected-frame) 'alpha '(98 96))
 (add-to-list 'default-frame-alist '(alpha 98 96))
+(setq save-abbrevs nil) ; don't bug me about saving ~/.abbrev_defs
 
 (eval-when-compile (require 'cl))
  (defun toggle-transparency ()
