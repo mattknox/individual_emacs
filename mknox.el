@@ -9,6 +9,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (color-theme-knoxboard)
 
 (add-to-list 'load-path (concat user-specific-dir "/arc" ))
+(add-to-list 'load-path (concat user-specific-dir "/ensime/src/main/elisp"))
 (add-to-list 'load-path (concat user-specific-dir "/fuel" ))
 (add-to-list 'load-path (concat user-specific-dir "/rhtml" ))
 (add-to-list 'load-path (concat user-specific-dir "/scala"))
@@ -18,6 +19,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (load-file "~/.emacs.d/elpa/yaml-mode-0.0.5/yaml-mode.el")
 (load-file "~/.emacs.d/mknox/fuel/fu.el")
+(load-file "~/.emacs.d/mknox/ensime/src/main/elisp/ensime.el")
 (load-file "~/.emacs.d/mknox/scala/scala-mode.el")
 (load-file "~/.emacs.d/mknox/arc/inferior-arc.el")
 (load-file "~/.emacs.d/mknox/arc/arc.el")
