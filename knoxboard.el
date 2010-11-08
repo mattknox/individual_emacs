@@ -28,7 +28,7 @@
      ((background-color . "black")
       (background-mode . dark)
       (border-color . "black")
-      (cursor-color . "#A7A7A7")
+      (cursor-color . "#373737")
       (foreground-color . "#888888")
       (mouse-color . "sienna1"))
      (default ((t (:background "black" :foreground "white"))))
