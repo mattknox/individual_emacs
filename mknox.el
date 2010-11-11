@@ -69,6 +69,9 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 ;; need to find something do disable ruby inserting encoding strings
 
 (add-hook 'ruby-mode-hook 'ruby-electric-mode)
+(add-hook 'ruby-mode-hook
+          (lambda()
+	    (ruby-electric-mode)))
 (add-hook 'scheme-mode-hook
           (lambda()
 	    (paredit-mode t)))
@@ -91,6 +94,18 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (column-number-mode)
 
 (setq ns-pop-up-frames nil)
+
+(defun ruby-interpolate ()
+  "In a double quoted string, interpolate."
+  (interactive)
+  (insert "#")
+  (let ((properties (text-properties-at (point))))
+    (when (and
+           (memq 'font-lock-string-face properties)
+           (save-excursion
+             (ruby-forward-string "\"" (line-end-position) t)))
+      (insert "{}")
+      (backward-char 1))))
 
 (global-set-key (kbd "C-u") 'forward-sexp)
 (global-set-key (kbd "C-t") 'transpose-sexps)
@@ -116,6 +131,8 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 			  (switch-to-buffer (url-retrieve-synchronously url))
 			  (rename-buffer url t)
 			  (html-mode)))
+
+(define-key ruby-mode-map (kbd "#") 'ruby-interpolate)
 
 (require 'js-comint)
 (setq inferior-js-program-command "node-repl")
@@ -160,6 +177,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook
      	  (lambda () (rinari-launch)))
+
 (eval-when-compile (require 'cl))
  (defun toggle-transparency ()
    (interactive)
