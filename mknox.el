@@ -132,7 +132,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 			  (rename-buffer url t)
 			  (html-mode)))
 
-(define-key ruby-mode-map (kbd "#") 'ruby-interpolate)
+;(define-key ruby-mode-map (kbd "#") 'ruby-interpolate)
 
 (require 'js-comint)
 (setq inferior-js-program-command "node-repl")
