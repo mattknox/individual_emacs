@@ -1,0 +1,5 @@
+set PORT_FILE=%1
+set CLASSPATH=<RUNTIME_CLASSPATH>
+set INITIAL_HEAP=256M
+set MAX_HEAP=1024M
+java -classpath %CLASSPATH% -Xms%INITIAL_HEAP% -Xmx%MAX_HEAP% org.ensime.server.Server %PORT_FILE%
