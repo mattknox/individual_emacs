@@ -68,10 +68,9 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 
 ;; need to find something do disable ruby inserting encoding strings
 
-(add-hook 'ruby-mode-hook 'ruby-electric-mode)
 (add-hook 'ruby-mode-hook
           (lambda()
-	    (ruby-electric-mode)))
+	    (ruby-electric-mode t)))
 (add-hook 'scheme-mode-hook
           (lambda()
 	    (paredit-mode t)))
