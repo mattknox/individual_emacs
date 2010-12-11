@@ -1,3 +1,7 @@
+(setq system-specific-config (concat dotfiles-dir system-name ".el")
+      user-specific-config (concat dotfiles-dir user-login-name ".el")
+      user-specific-dir (concat dotfiles-dir user-login-name))
+
 (require 'maxframe)
 (load-file (concat user-specific-dir "/uptime.el"))
 (uptime-init)
@@ -20,17 +24,17 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (load-file "~/.emacs.d/elpa/yaml-mode-0.0.5/yaml-mode.el")
-(load-file "~/.emacs.d/mknox/fuel/fu.el")
-;(load-file "~/.emacs.d/mknox/ensime/src/main/elisp/ensime.el")
-(load-file "~/.emacs.d/mknox/scala/scala-mode.el")
-(load-file "~/.emacs.d/mknox/arc/inferior-arc.el")
-(load-file "~/.emacs.d/mknox/arc/arc.el")
-(load-file "~/.emacs.d/mknox/tuareg-mode-1.45.6/tuareg.el")
-(load-file "~/.emacs.d/mknox/haskell-mode-2.7.0/haskell-mode.el")
-(load-file "~/.emacs.d/mknox/coffee-mode/coffee-mode.el")
-;(load-file "~/.emacs.d/mknox/twittering-mode/twittering-mode.el")
-(load-file "~/.emacs.d/mknox/zencoding/zencoding-mode.el")
-
+(load-file (concat user-specific-dir "/fuel/fu.el"))
+(load-file (concat user-specific-dir "/ensime/src/main/elisp/ensime.el"))
+(load-file (concat user-specific-dir "/scala/scala-mode.el"))
+(load-file (concat user-specific-dir "/arc/inferior-arc.el"))
+(load-file (concat user-specific-dir "/arc/arc.el"))
+(load-file (concat user-specific-dir "/tuareg-mode-1.45.6/tuareg.el"))
+(load-file (concat user-specific-dir "/haskell-mode-2.7.0/haskell-mode.el"))
+(load-file (concat user-specific-dir "/coffee-mode/coffee-mode.el"))
+(load-file (concat user-specific-dir "/twittering-mode/twittering-mode.el"))
+(load-file (concat user-specific-dir "/zencoding/zencoding-mode.el"))
+(load-file (concat user-specific-dir "/snippet.el"))
 (require 'w3m-load)
 (require 'w3m-e21)
 (provide 'w3m-e23)
@@ -72,10 +76,9 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 
 ;; need to find something do disable ruby inserting encoding strings
 
-(add-hook 'ruby-mode-hook 'ruby-electric-mode)
 (add-hook 'ruby-mode-hook
           (lambda()
-	    (ruby-electric-mode)))
+	    (ruby-electric-mode t)))
 (add-hook 'scheme-mode-hook
           (lambda()
 	    (paredit-mode t)))
