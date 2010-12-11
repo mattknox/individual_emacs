@@ -43,6 +43,13 @@
 ;; ensure that your changes have not broken anything. Feel free to add
 ;; new test cases if you add new features.
 
+;; this seems to be missing features listed here:
+;; http://code.google.com/p/zen-coding/wiki/Actions
+;; it'd be interesting to see if any ideas from paredit are applicable
+;; here.  Probably not, as zencoding squeezes out all the redundancy.
+;; can it be combined with haml?
+
+
 ;;; Code:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

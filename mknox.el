@@ -15,18 +15,20 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (add-to-list 'load-path (concat user-specific-dir "/scala"))
 (add-to-list 'load-path (concat user-specific-dir "/w3m"))
 (add-to-list 'load-path (concat user-specific-dir "/zencoding"))
+
+
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (load-file "~/.emacs.d/elpa/yaml-mode-0.0.5/yaml-mode.el")
 (load-file "~/.emacs.d/mknox/fuel/fu.el")
-(load-file "~/.emacs.d/mknox/ensime/src/main/elisp/ensime.el")
+;(load-file "~/.emacs.d/mknox/ensime/src/main/elisp/ensime.el")
 (load-file "~/.emacs.d/mknox/scala/scala-mode.el")
 (load-file "~/.emacs.d/mknox/arc/inferior-arc.el")
 (load-file "~/.emacs.d/mknox/arc/arc.el")
 (load-file "~/.emacs.d/mknox/tuareg-mode-1.45.6/tuareg.el")
 (load-file "~/.emacs.d/mknox/haskell-mode-2.7.0/haskell-mode.el")
 (load-file "~/.emacs.d/mknox/coffee-mode/coffee-mode.el")
-(load-file "~/.emacs.d/mknox/twittering-mode/twittering-mode.el")
+;(load-file "~/.emacs.d/mknox/twittering-mode/twittering-mode.el")
 (load-file "~/.emacs.d/mknox/zencoding/zencoding-mode.el")
 
 (require 'w3m-load)
@@ -61,6 +63,8 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
   (moz-minor-mode 1))
 
 (setq js2-basic-offset 2)
+(add-hook 'sgml-mode-hook 'zencoding-mode)
+(add-hook 'nxml-mode-hook 'zencoding-mode)
 
 ;; (add-hook 'js2-mode-hook 'esk-paredit-nonlisp)
 ;; (add-hook 'js2-mode-hook 'run-coding-hook)
@@ -178,6 +182,14 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (add-hook 'rhtml-mode-hook
      	  (lambda () (rinari-launch)))
 
+(defun toggle-fullscreen (&optional f)
+      (interactive)
+      (let ((current-value (frame-parameter nil 'fullscreen)))
+           (set-frame-parameter nil 'fullscreen
+                                (if (equal 'fullboth current-value)
+                                    (if (boundp 'old-fullscreen) old-fullscreen nil)
+                                    (progn (setq old-fullscreen current-value)
+                                           'fullboth)))))
 (eval-when-compile (require 'cl))
  (defun toggle-transparency ()
    (interactive)
