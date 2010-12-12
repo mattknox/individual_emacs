@@ -30,7 +30,7 @@
       (border-color . "black")
       (cursor-color . "#373737")
       (foreground-color . "#888888")
-      (mouse-color . "sienna1"))
+      (mouse-color . "blue"))
      (default ((t (:background "black" :foreground "white"))))
      (blue ((t (:foreground "blue"))))
      (bold ((t (:bold t))))
