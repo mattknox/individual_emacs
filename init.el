@@ -45,7 +45,6 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (global-set-key "\C-xm" 'browse-url-at-point)
 (setq w3m-use-cookies t)
 
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
 (add-to-list 'auto-mode-alist '("\\.arc$" . arc-mode))
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
@@ -54,6 +53,8 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
 (add-to-list 'auto-mode-alist '("\\.html.erb$" . rhtml-mode))
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+
 (require 'rdebug)
 
 (require 'edit-server)
