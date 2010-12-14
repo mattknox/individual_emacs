@@ -2,6 +2,11 @@
       user-specific-config (concat dotfiles-dir user-login-name ".el")
       user-specific-dir (concat dotfiles-dir user-login-name))
 
+;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
+(custom-set-variables
+  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/\\1" t)))
+  '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
+
 (require 'maxframe)
 (load-file (concat user-specific-dir "/uptime.el"))
 (uptime-init)
