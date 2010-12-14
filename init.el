@@ -4,7 +4,7 @@
 
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
 (custom-set-variables
-  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/\\1" t)))
+  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/backups/" t)))
   '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
 
 (require 'maxframe)
@@ -212,3 +212,4 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 
 (maximize-frame)
 (split-window-horizontally)
+
