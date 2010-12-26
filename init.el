@@ -43,6 +43,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (require 'w3m-load)
 (require 'w3m-e21)
 (provide 'w3m-e23)
+(require 'textmate)
 
 (setq browse-url-browser-function 'w3m-browse-url)
 (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
@@ -139,6 +140,9 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (global-set-key "\C-\M-h" 'backward-kill-word)
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\C-x\C-r" 'jump-to-register)
+
+(global-set-key "\M-t" 'textmate-goto-file)
+(global-set-key "\M-#" 'comment-or-uncomment-region-or-line)
 
 (global-set-key "\C-xh" (lambda (url) (interactive "MUrl: ")
 			  (switch-to-buffer (url-retrieve-synchronously url))
