@@ -1,5 +1,4 @@
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
-      user-specific-config (concat dotfiles-dir user-login-name ".el")
       user-specific-dir (concat dotfiles-dir user-login-name))
 
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
@@ -28,7 +27,7 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
-(load-file "~/.emacs.d/elpa/yaml-mode-0.0.5/yaml-mode.el")
+(load-file (concat dotfiles-dir "/elpa/yaml-mode-0.0.5/yaml-mode.el"))
 (load-file (concat user-specific-dir "/fuel/fu.el"))
 (load-file (concat user-specific-dir "/ensime/src/main/elisp/ensime.el"))
 (load-file (concat user-specific-dir "/scala/scala-mode.el"))
