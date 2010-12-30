@@ -7,38 +7,45 @@
   '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
 
 (require 'maxframe)
-(load-file (concat user-specific-dir "/uptime.el"))
-(uptime-init)
-
-(autoload 'color-theme-knoxboard "knoxboard" "\
-Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
+(autoload 'color-theme-knoxboard "knoxboard" "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
 \(fn)" t nil)
 
+;(setq fuel-listener-factor-binary "~/bin/factor/factor")
+;(setq fuel-listener-factor-image "~/bin/factor/factor.image")
+(setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/w3m" "/zencoding" ))
+(setq user-specific-load-files '( ;"/fuel/fu.el"
+                                  "/ensime/src/main/elisp/ensime.el"
+                                  "/scala/scala-mode.el"
+                                  "/arc/inferior-arc.el"
+                                  "/arc/arc.el"
+                                  "/tuareg-mode-1.45.6/tuareg.el"
+                                  "/haskell-mode-2.7.0/haskell-mode.el"
+                                  "/coffee-mode/coffee-mode.el"
+                                  "/twittering-mode/twittering-mode.el"
+                                  "/zencoding/zencoding-mode.el"
+                                  "/snippet.el"
+                                  "/uptime.el"))
+
+(setq mode-list-map '(("\\.hs$" . haskell-mode)
+                      ("\\.ml[ily]?$" . tuareg-mode)
+                      ("\\.topml$" . tuareg-mode)
+                      ("\.coffee$" . coffee-mode)
+                      ("\\.js$" . js2-mode)
+                      ("\\.scala$" . scala-mode)
+                      ("\\.html.erb$" . rhtml-mode)
+                      ("\\.yml$" . yaml-mode)))
+
+(mapc (lambda (x) (add-to-list 'auto-mode-alist x))
+      mode-list-map)
+(load-file (concat dotfiles-dir "/elpa/yaml-mode-0.0.5/yaml-mode.el"))
+(mapc (lambda (x) (add-to-list 'load-path (concat user-specific-dir x)))
+      user-specific-loadpath-dirs)
+(mapc (lambda (x) (load-file (concat user-specific-dir x)))
+      user-specific-load-files)
+
+(uptime-init)
 (color-theme-knoxboard)
 
-(add-to-list 'load-path (concat user-specific-dir "/arc" ))
-(add-to-list 'load-path (concat user-specific-dir "/ensime/src/main/elisp"))
-(add-to-list 'load-path (concat user-specific-dir "/fuel" ))
-(add-to-list 'load-path (concat user-specific-dir "/rhtml" ))
-(add-to-list 'load-path (concat user-specific-dir "/scala"))
-(add-to-list 'load-path (concat user-specific-dir "/w3m"))
-(add-to-list 'load-path (concat user-specific-dir "/zencoding"))
-
-
-(setq fuel-listener-factor-binary "~/bin/factor/factor")
-(setq fuel-listener-factor-image "~/bin/factor/factor.image")
-(load-file (concat dotfiles-dir "/elpa/yaml-mode-0.0.5/yaml-mode.el"))
-(load-file (concat user-specific-dir "/fuel/fu.el"))
-(load-file (concat user-specific-dir "/ensime/src/main/elisp/ensime.el"))
-(load-file (concat user-specific-dir "/scala/scala-mode.el"))
-(load-file (concat user-specific-dir "/arc/inferior-arc.el"))
-(load-file (concat user-specific-dir "/arc/arc.el"))
-(load-file (concat user-specific-dir "/tuareg-mode-1.45.6/tuareg.el"))
-(load-file (concat user-specific-dir "/haskell-mode-2.7.0/haskell-mode.el"))
-(load-file (concat user-specific-dir "/coffee-mode/coffee-mode.el"))
-(load-file (concat user-specific-dir "/twittering-mode/twittering-mode.el"))
-(load-file (concat user-specific-dir "/zencoding/zencoding-mode.el"))
-(load-file (concat user-specific-dir "/snippet.el"))
 (require 'w3m-load)
 (require 'w3m-e21)
 (provide 'w3m-e23)
@@ -50,23 +57,15 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (global-set-key "\C-xm" 'browse-url-at-point)
 (setq w3m-use-cookies t)
 
-(add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
-(add-to-list 'auto-mode-alist '("\\.arc$" . arc-mode))
-(add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
-(add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
-(add-to-list 'auto-mode-alist '("\.coffee$" . coffee-mode))
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
-(add-to-list 'auto-mode-alist '("\\.html.erb$" . rhtml-mode))
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-
 (require 'rdebug)
 
 (require 'edit-server)
 ; (setq debug-on-error 't)
 ; (setq edebug-all-defs 't)
 (setq edit-server-new-frame nil)
-(edit-server-start)
+;(edit-server-start)
+
+(defun run-coding-hook () “Enable things that are convenient across all coding buffers.” (run-hooks ‘coding-hook))
 
 (add-hook 'js2-mode-hook 'js2-custom-setup)
 (defun js2-custom-setup ()
@@ -172,8 +171,8 @@ Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ; emacsclient config
-(server-start)
-;; (add-hook 'after-init-hook 'server-start)
+;(server-start)
+;(add-hook 'after-init-hook 'server-start)
 ;; (add-hook 'server-done-hook
 ;; (lambda ()
 ;; (shell-command
