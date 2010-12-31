@@ -12,8 +12,8 @@
 
 ;(setq fuel-listener-factor-binary "~/bin/factor/factor")
 ;(setq fuel-listener-factor-image "~/bin/factor/factor.image")
-(setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/w3m" "/zencoding" ))
-(setq user-specific-load-files '( ;"/fuel/fu.el"
+(setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/w3m" "/zencoding" "/fuel"))
+(setq user-specific-load-files '( "/fuel/fu.el"
                                   "/ensime/src/main/elisp/ensime.el"
                                   "/scala/scala-mode.el"
                                   "/arc/inferior-arc.el"
@@ -63,7 +63,7 @@
 ; (setq debug-on-error 't)
 ; (setq edebug-all-defs 't)
 (setq edit-server-new-frame nil)
-;(edit-server-start)
+;
 
 (defun run-coding-hook () “Enable things that are convenient across all coding buffers.” (run-hooks ‘coding-hook))
 
@@ -119,6 +119,15 @@
       (insert "{}")
       (backward-char 1))))
 
+(defun kill-buffer-and-close-frame ()
+  (interactive)
+  (kill-this-buffer)
+  (delete-window))
+
+(defun run-servers ()
+  (edit-server-start)
+  (server-start))
+
 (global-set-key (kbd "C-u") 'forward-sexp)
 (global-set-key (kbd "C-t") 'transpose-sexps)
 (global-set-key (kbd "C-M-t") 'transpose-chars)
@@ -139,6 +148,7 @@
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\C-x\C-r" 'jump-to-register)
 
+(global-set-key "\M-w" 'kill-buffer-and-close-frame)
 (global-set-key "\M-t" 'textmate-goto-file)
 (global-set-key "\M-#" 'comment-or-uncomment-region-or-line)
 
