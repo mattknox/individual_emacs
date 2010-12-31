@@ -12,8 +12,8 @@
 
 ;(setq fuel-listener-factor-binary "~/bin/factor/factor")
 ;(setq fuel-listener-factor-image "~/bin/factor/factor.image")
-(setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/w3m" "/zencoding" "/fuel"))
-(setq user-specific-load-files '( "/fuel/fu.el"
+(setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/w3m" "/zencoding" "/fuel_new"))
+(setq user-specific-load-files '( "/fuel_new/fu.el"
                                   "/ensime/src/main/elisp/ensime.el"
                                   "/scala/scala-mode.el"
                                   "/arc/inferior-arc.el"
