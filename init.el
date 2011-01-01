@@ -44,7 +44,7 @@
       user-specific-load-files)
 
 (uptime-init)
-(color-theme-knoxboard)
+(color-theme-billw)
 
 (require 'w3m-load)
 (require 'w3m-e21)
