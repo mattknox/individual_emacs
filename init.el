@@ -1,3 +1,4 @@
+(defvar paredit-space-for-delimiter-predicates nil)
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
       user-specific-dir (concat dotfiles-dir user-login-name))
 
@@ -44,7 +45,7 @@
       user-specific-load-files)
 
 (uptime-init)
-(color-theme-billw)
+(color-theme-knoxboard)
 
 (require 'w3m-load)
 (require 'w3m-e21)
