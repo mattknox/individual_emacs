@@ -72,6 +72,22 @@
 (defun js2-custom-setup ()
   (moz-minor-mode 1))
 
+(defun ff/move-region-to-fridge ()
+  (interactive)
+  "Cut the current region, paste it in a file called ./fridge with a time tag, and save this file"
+  (unless (use-region-p) (error "No region selected"))
+  (let ((bn (file-name-nondirectory (buffer-file-name))))
+    (kill-region (region-beginning) (region-end))
+    (with-current-buffer (find-file-noselect "fridge")
+      (goto-char (point-max))
+      (insert "\n")
+      (insert "######################################################################\n")
+      (insert "\n" (format-time-string "%Y %b %d %H:%M:%S" (current-time)) " (from " bn ")\n\n")
+      (yank)
+      (save-buffer)
+      (message "Region moved to fridge"))))
+
+
 (setq js2-basic-offset 2)
 (add-hook 'sgml-mode-hook 'zencoding-mode)
 (add-hook 'nxml-mode-hook 'zencoding-mode)
