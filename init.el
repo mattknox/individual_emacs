@@ -66,6 +66,7 @@
 (setq edit-server-new-frame nil)
 ;
 
+; FIXME: shouldn't need this here, put it in because of load order strangeness
 (defun run-coding-hook ()
   "Enable things that are convenient across all coding buffers"
   (run-hooks ‘coding-hook)
