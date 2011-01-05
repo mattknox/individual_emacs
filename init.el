@@ -67,9 +67,11 @@
 ;
 
 ; FIXME: shouldn't need this here, put it in because of load order strangeness
-(defun run-coding-hook () "Enable things that are convenient across all coding buffers." (run-hooks 'coding-hook))
+(defun run-coding-hook ()
+  "Enable things that are convenient across all coding buffers"
+  (run-hooks ‘coding-hook)
+  (add-hook 'js2-mode-hook 'js2-custom-setup))
 
-(add-hook 'js2-mode-hook 'js2-custom-setup)
 (defun js2-custom-setup ()
   (moz-minor-mode 1))
 
