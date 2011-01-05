@@ -88,6 +88,42 @@
       (save-buffer)
       (message "Region moved to fridge"))))
 
+; stolen from defunkt
+(defun word-count ()
+  "Count words in buffer"
+  (interactive)
+  (shell-command-on-region (point-min) (point-max) "wc -w"))
+
+; for loading libraries in from the vendor directory
+(defun vendor (library)
+  (let* ((file (symbol-name library))
+         (normal (concat "~/.emacs.d/vendor/" file))
+         (suffix (concat normal ".el"))
+         (defunkt (concat "~/.emacs.d/defunkt/" file)))
+    (cond
+     ((file-directory-p normal) (add-to-list 'load-path normal) (require library))
+     ((file-directory-p suffix) (add-to-list 'load-path suffix) (require library))
+     ((file-exists-p suffix) (require library)))
+    (when (file-exists-p (concat defunkt ".el"))
+      (load defunkt))))
+
+(defun url-fetch-into-buffer (url)
+  (interactive "sURL:")
+  (insert (concat "\n\n" ";; " url "\n"))
+  (insert (url-fetch-to-string url)))
+
+(defun url-fetch-to-string (url)
+  (with-current-buffer (url-retrieve-synchronously url)
+    (beginning-of-buffer)
+    (search-forward-regexp "\n\n")
+    (delete-region (point-min) (point))
+    (buffer-string)))
+
+(defun gist-buffer-confirm (&optional private)
+  (interactive "P")
+  (when (yes-or-no-p "Are you sure you want to Gist this buffer? ")
+    (gist-region-or-buffer private)))
+
 
 (setq js2-basic-offset 2)
 (add-hook 'sgml-mode-hook 'zencoding-mode)
@@ -174,6 +210,11 @@
 			  (switch-to-buffer (url-retrieve-synchronously url))
 			  (rename-buffer url t)
 			  (html-mode)))
+
+(global-set-key [C-tab] 'other-window)
+(global-set-key "\C-c\C-g" 'gist-buffer-confirm)
+(global-set-key (kbd "C-S-N") 'word-count)
+(global-set-key (kbd "A-F") 'ack)
 
 ;(define-key ruby-mode-map (kbd "#") 'ruby-interpolate)
 
