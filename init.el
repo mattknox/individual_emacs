@@ -14,7 +14,8 @@
 ;(setq fuel-listener-factor-binary "~/bin/factor/factor")
 ;(setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/w3m" "/zencoding" "/fuel_new"))
-(setq user-specific-load-files '( "/fuel_new/fu.el"
+(setq user-specific-load-files '( "defuns.el"
+                                  "/fuel_new/fu.el"
                                   "/ensime/src/main/elisp/ensime.el"
                                   "/scala/scala-mode.el"
                                   "/arc/inferior-arc.el"
@@ -75,64 +76,6 @@
 (defun js2-custom-setup ()
   (moz-minor-mode 1))
 
-(defun ff/move-region-to-fridge ()
-  (interactive)
-  "Cut the current region, paste it in a file called ./fridge with a time tag, and save this file"
-  (unless (use-region-p) (error "No region selected"))
-  (let ((bn (file-name-nondirectory (buffer-file-name))))
-    (kill-region (region-beginning) (region-end))
-    (with-current-buffer (find-file-noselect "fridge")
-      (goto-char (point-max))
-      (insert "\n")
-      (insert "######################################################################\n")
-      (insert "\n" (format-time-string "%Y %b %d %H:%M:%S" (current-time)) " (from " bn ")\n\n")
-      (yank)
-      (save-buffer)
-      (message "Region moved to fridge"))))
-
-; stolen from defunkt
-(defun word-count ()
-  "Count words in buffer"
-  (interactive)
-  (shell-command-on-region (point-min) (point-max) "wc -w"))
-
-; for loading libraries in from the vendor directory
-(defun vendor (library)
-  (let* ((file (symbol-name library))
-         (normal (concat "~/.emacs.d/vendor/" file))
-         (suffix (concat normal ".el"))
-         (personal (concat user-specific-dir file))
-         (found nil))
-    (cond
-     ((file-directory-p normal) (add-to-list 'load-path normal) (require library))
-     ((file-directory-p suffix) (add-to-list 'load-path suffix) (require library))
-     ((file-exists-p suffix) (set 'found t)))
-    (when found
-      (if autoload-functions
-          (dolist (autoload-function autoload-functions)
-            (autoload autoload-function (symbol-name library) nil t))
-        (require library)))
-    (when (file-exists-p (concat personal ".el"))
-      (load personal))))
-
-(defun url-fetch-into-buffer (url)
-  (interactive "sURL:")
-  (insert (concat "\n\n" ";; " url "\n"))
-  (insert (url-fetch-to-string url)))
-
-(defun url-fetch-to-string (url)
-  (with-current-buffer (url-retrieve-synchronously url)
-    (beginning-of-buffer)
-    (search-forward-regexp "\n\n")
-    (delete-region (point-min) (point))
-    (buffer-string)))
-
-(defun gist-buffer-confirm (&optional private)
-  (interactive "P")
-  (when (yes-or-no-p "Are you sure you want to Gist this buffer? ")
-    (gist-region-or-buffer private)))
-
-
 (setq js2-basic-offset 2)
 (add-hook 'sgml-mode-hook 'zencoding-mode)
 (add-hook 'nxml-mode-hook 'zencoding-mode)
@@ -168,23 +111,6 @@
 (column-number-mode)
 
 (setq ns-pop-up-frames nil)
-
-(defun ruby-interpolate ()
-  "In a double quoted string, interpolate."
-  (interactive)
-  (insert "#")
-  (let ((properties (text-properties-at (point))))
-    (when (and
-           (memq 'font-lock-string-face properties)
-           (save-excursion
-             (ruby-forward-string "\"" (line-end-position) t)))
-      (insert "{}")
-      (backward-char 1))))
-
-(defun kill-buffer-and-close-frame ()
-  (interactive)
-  (kill-this-buffer)
-  (delete-window))
 
 (defun run-servers ()
   (edit-server-start)

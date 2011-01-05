@@ -25,8 +25,8 @@
 
 (defun display-image ()
   "display images using imagemagick"
-  (interactive) 
-  (shell-command (concat "display " 
+  (interactive)
+  (shell-command (concat "display "
 			 (thing-at-point 'filename))))
 
 (defun flickr-grab ()
@@ -74,11 +74,11 @@
   (unless (boundp 'music-dirs)
     (setq music-dirs (split-string (shell-command-to-string "find /home/phil/music -type d | cut -c 18-") "\n")))
   (let ((dir (nth (random (length music-dirs)) music-dirs)))
-    (shell-command (concat 
+    (shell-command (concat
 		    "ssh philisha.net mpc clear; "
 		    "ssh philisha.net mpc add " dir " > /dev/null"))
     (message dir)))
-    
+
 (defun make-frame-on-memex ()
   (interactive)
   (make-frame-on-display "192.168.1.47:0.0"))
@@ -99,5 +99,79 @@
                                       ,(make-char 'greek-iso8859-7 107))
                       nil))))))
 
+(defun ff/move-region-to-fridge ()
+  (interactive)
+  "Cut the current region, paste it in a file called ./fridge with a time tag, and save this file"
+  (unless (use-region-p) (error "No region selected"))
+  (let ((bn (file-name-nondirectory (buffer-file-name))))
+    (kill-region (region-beginning) (region-end))
+    (with-current-buffer (find-file-noselect "fridge")
+      (goto-char (point-max))
+      (insert "\n")
+      (insert "######################################################################\n")
+      (insert "\n" (format-time-string "%Y %b %d %H:%M:%S" (current-time)) " (from " bn ")\n\n")
+      (yank)
+      (save-buffer)
+      (message "Region moved to fridge"))))
+
+; stolen from defunkt
+(defun word-count ()
+  "Count words in buffer"
+  (interactive)
+  (shell-command-on-region (point-min) (point-max) "wc -w"))
+
+; for loading libraries in from the vendor directory
+(defun vendor (library)
+  (let* ((file (symbol-name library))
+         (normal (concat "~/.emacs.d/vendor/" file))
+         (suffix (concat normal ".el"))
+         (personal (concat user-specific-dir file))
+         (found nil))
+    (cond
+     ((file-directory-p normal) (add-to-list 'load-path normal) (require library))
+     ((file-directory-p suffix) (add-to-list 'load-path suffix) (require library))
+     ((file-exists-p suffix) (set 'found t)))
+    (when found
+      (if autoload-functions
+          (dolist (autoload-function autoload-functions)
+            (autoload autoload-function (symbol-name library) nil t))
+        (require library)))
+    (when (file-exists-p (concat personal ".el"))
+      (load personal))))
+
+(defun url-fetch-into-buffer (url)
+  (interactive "sURL:")
+  (insert (concat "\n\n" ";; " url "\n"))
+  (insert (url-fetch-to-string url)))
+
+(defun url-fetch-to-string (url)
+  (with-current-buffer (url-retrieve-synchronously url)
+    (beginning-of-buffer)
+    (search-forward-regexp "\n\n")
+    (delete-region (point-min) (point))
+    (buffer-string)))
+
+(defun gist-buffer-confirm (&optional private)
+  (interactive "P")
+  (when (yes-or-no-p "Are you sure you want to Gist this buffer? ")
+    (gist-region-or-buffer private)))
+
+
+(defun ruby-interpolate ()
+  "In a double quoted string, interpolate."
+  (interactive)
+  (insert "#")
+  (let ((properties (text-properties-at (point))))
+    (when (and
+           (memq 'font-lock-string-face properties)
+           (save-excursion
+             (ruby-forward-string "\"" (line-end-position) t)))
+      (insert "{}")
+      (backward-char 1))))
+
+(defun kill-buffer-and-close-frame ()
+  (interactive)
+  (kill-this-buffer)
+  (delete-window))
 
 (provide 'defuns)
