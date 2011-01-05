@@ -5,7 +5,7 @@
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
 (custom-set-variables
   '(auto-save-file-name-transforms '((".*" "~/.emacs.d/backups/" t)))
-  '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
+  '(backup-directory-alist '(("." . "~/.emacs.d/backups/"))))
 
 (require 'maxframe)
 (autoload 'color-theme-knoxboard "knoxboard" "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
@@ -101,13 +101,19 @@
   (let* ((file (symbol-name library))
          (normal (concat "~/.emacs.d/vendor/" file))
          (suffix (concat normal ".el"))
-         (defunkt (concat "~/.emacs.d/defunkt/" file)))
+         (personal (concat user-specific-dir file))
+         (found nil))
     (cond
      ((file-directory-p normal) (add-to-list 'load-path normal) (require library))
      ((file-directory-p suffix) (add-to-list 'load-path suffix) (require library))
-     ((file-exists-p suffix) (require library)))
-    (when (file-exists-p (concat defunkt ".el"))
-      (load defunkt))))
+     ((file-exists-p suffix) (set 'found t)))
+    (when found
+      (if autoload-functions
+          (dolist (autoload-function autoload-functions)
+            (autoload autoload-function (symbol-name library) nil t))
+        (require library)))
+    (when (file-exists-p (concat personal ".el"))
+      (load personal))))
 
 (defun url-fetch-into-buffer (url)
   (interactive "sURL:")
