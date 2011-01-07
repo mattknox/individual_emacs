@@ -14,7 +14,8 @@
 ;(setq fuel-listener-factor-binary "~/bin/factor/factor")
 ;(setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/w3m" "/zencoding" "/fuel_new"))
-(setq user-specific-load-files '( "defuns.el"
+(setq user-specific-load-files '( "keybindings"
+                                  "defuns.el"
                                   "/fuel_new/fu.el"
                                   "/ensime/src/main/elisp/ensime.el"
                                   "/scala/scala-mode.el"
@@ -39,6 +40,7 @@
 
 (mapc (lambda (x) (add-to-list 'auto-mode-alist x))
       mode-list-map)
+
 (load-file (concat dotfiles-dir "/elpa/yaml-mode-0.0.5/yaml-mode.el"))
 (mapc (lambda (x) (add-to-list 'load-path (concat user-specific-dir x)))
       user-specific-loadpath-dirs)
@@ -115,40 +117,6 @@
 (defun run-servers ()
   (edit-server-start)
   (server-start))
-
-(global-set-key (kbd "C-u") 'forward-sexp)
-(global-set-key (kbd "C-t") 'transpose-sexps)
-(global-set-key (kbd "C-M-t") 'transpose-chars)
-(global-set-key (kbd "C-o") 'backward-sexp)
-(global-set-key (kbd "C-M-u") 'backward-char)
-(global-set-key (kbd "C-n") 'next-line)
-(global-set-key (kbd "C-M-n") 'forward-char)
-(global-set-key (kbd "TAB")  'slime-complete-symbol)
-(global-set-key (kbd "C-TAB")  'lisp-indent-line)
-(global-set-key (kbd "C-w") 'backward-kill-word)
-(global-set-key "\C-x\C-m" 'execute-extended-command)
-(global-set-key "\C-x\C-g" 'magit-status)
-(global-set-key "\C-x\g" 'magit-status)
-(global-set-key "\M-t" 'textmate-goto-symbol)
-(global-set-key [(control x) (control b)] 'electric-buffer-list)
-
-(global-set-key "\C-\M-h" 'backward-kill-word)
-(global-set-key "\M-g" 'goto-line)
-(global-set-key "\C-x\C-r" 'jump-to-register)
-
-(global-set-key "\M-w" 'kill-buffer-and-close-frame)
-(global-set-key "\M-t" 'textmate-goto-file)
-(global-set-key "\M-#" 'comment-or-uncomment-region-or-line)
-
-(global-set-key "\C-xh" (lambda (url) (interactive "MUrl: ")
-			  (switch-to-buffer (url-retrieve-synchronously url))
-			  (rename-buffer url t)
-			  (html-mode)))
-
-(global-set-key [C-tab] 'other-window)
-(global-set-key "\C-c\C-g" 'gist-buffer-confirm)
-(global-set-key (kbd "C-S-N") 'word-count)
-(global-set-key (kbd "A-F") 'ack)
 
 ;(define-key ruby-mode-map (kbd "#") 'ruby-interpolate)
 
