@@ -11,8 +11,6 @@
 (autoload 'color-theme-knoxboard "knoxboard" "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
 \(fn)" t nil)
 
-;(setq fuel-listener-factor-binary "~/bin/factor/factor")
-;(setq fuel-listener-factor-image "~/bin/factor/factor.image")
 (setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/w3m" "/zencoding" "/fuel_new"))
 (setq user-specific-load-files '( "keybindings"
                                   "defuns.el"
@@ -47,6 +45,9 @@
 (mapc (lambda (x) (load-file (concat user-specific-dir x)))
       user-specific-load-files)
 
+(setq fuel-listener-factor-binary "~/bin/factor/factor")
+(setq fuel-listener-factor-image "~/bin/factor/factor.image")
+
 (uptime-init)
 (color-theme-knoxboard)
 
@@ -54,20 +55,15 @@
 (require 'w3m-e21)
 (provide 'w3m-e23)
 (require 'textmate)
+(require 'rdebug)
+(require 'edit-server)
+(setq edit-server-new-frame nil)
 
 (setq browse-url-browser-function 'w3m-browse-url)
 (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
 ;; optional keyboard short-cut
 (global-set-key "\C-xm" 'browse-url-at-point)
 (setq w3m-use-cookies t)
-
-(require 'rdebug)
-
-(require 'edit-server)
-; (setq debug-on-error 't)
-; (setq edebug-all-defs 't)
-(setq edit-server-new-frame nil)
-;
 
 ; FIXME: shouldn't need this here, put it in because of load order strangeness
 (defun run-coding-hook ()
@@ -173,13 +169,13 @@
                                     (progn (setq old-fullscreen current-value)
                                            'fullboth)))))
 (eval-when-compile (require 'cl))
- (defun toggle-transparency ()
-   (interactive)
-   (if (/=
-        (cadr (frame-parameter nil 'alpha))
-        100)
-       (set-frame-parameter nil 'alpha '(100 100))
-     (set-frame-parameter nil 'alpha '(85 50))))
+(defun toggle-transparency ()
+  (interactive)
+  (if (/=
+       (cadr (frame-parameter nil 'alpha))
+       100)
+      (set-frame-parameter nil 'alpha '(100 100))
+    (set-frame-parameter nil 'alpha '(85 50))))
 (global-set-key (kbd "C-c t") 'toggle-transparency)
 
 
