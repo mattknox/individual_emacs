@@ -174,4 +174,9 @@
   (kill-this-buffer)
   (delete-window))
 
+;; this is from rails-lib.el in the emacs-rails package
+(defun string-join (separator strings)
+  "Join all STRINGS using SEPARATOR."
+  (mapconcat 'identity strings separator))
+
 (provide 'defuns)
