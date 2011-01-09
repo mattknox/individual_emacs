@@ -3,9 +3,9 @@
       user-specific-dir (concat dotfiles-dir user-login-name))
 
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
-(custom-set-variables
-  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/backups/" t)))
-  '(backup-directory-alist '(("." . "~/.emacs.d/backups/"))))
+;; (custom-set-variables
+;;   '(auto-save-file-name-transforms '((".*" "~/.emacs.d/backups/" t)))
+;;   '(backup-directory-alist '(("." . "~/.emacs.d/backups/"))))
 
 ;; Put autosave files (ie #foo#) in one place, *not*
 ;; scattered all over the file system!
