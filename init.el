@@ -7,6 +7,20 @@
   '(auto-save-file-name-transforms '((".*" "~/.emacs.d/backups/" t)))
   '(backup-directory-alist '(("." . "~/.emacs.d/backups/"))))
 
+;; Put autosave files (ie #foo#) in one place, *not*
+;; scattered all over the file system!
+(defvar autosave-dir
+ (concat "/tmp/emacs_autosaves/" (user-login-name) "/"))
+(make-directory autosave-dir t)
+(setq auto-save-file-name-transforms `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat
+autosave-dir "\\1") t)))
+
+;; Put backup files (ie foo~) in one place too. (The backup-directory-alist
+;; list contains regexp=>directory mappings; filenames matching a regexp are
+;; backed up in the corresponding directory. Emacs will mkdir it if necessary.)
+(defvar backup-dir (concat "/tmp/emacs_backups/" (user-login-name) "/"))
+(setq backup-directory-alist (list (cons "." backup-dir)))
+
 (require 'maxframe)
 (autoload 'color-theme-knoxboard "knoxboard" "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
 \(fn)" t nil)
@@ -128,6 +142,7 @@
 
 ;; this is necessary for emacs 23, because it uses the alt/option key for meta.
 (setq mac-command-modifier 'meta)
+(setq mac-option-modifier 'alt)
 (set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-12-*-*-*-m-0-iso10646-")
 ; use default Mac browser
 (setq browse-url-browser-function 'browse-url-default-macosx-browser)
