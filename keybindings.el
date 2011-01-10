@@ -19,8 +19,10 @@
 (global-set-key "\C-x\C-r" 'jump-to-register)
 
 (global-set-key "\M-w" 'kill-buffer-and-close-frame)
+(global-set-key "\M-W" 'kill-this-buffer)
+(global-set-key (kbd "A-w") 'kill-this-buffer)
 (global-set-key "\M-t" 'textmate-goto-file)
-(global-set-key "\M-#" 'comment-or-uncomment-region-or-line)
+(global-set-key "\M-#" 'comment-dwim)
 
 (global-set-key "\C-xh" (lambda (url) (interactive "MUrl: ")
 			  (switch-to-buffer (url-retrieve-synchronously url))
