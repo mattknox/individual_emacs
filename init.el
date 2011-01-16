@@ -1,3 +1,5 @@
+(defvar *emacs-load-start* (current-time))
+
 (defvar paredit-space-for-delimiter-predicates nil)
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
       user-specific-dir (concat dotfiles-dir user-login-name))
@@ -197,3 +199,8 @@ autosave-dir "\\1") t)))
 (maximize-frame)
 (split-window-horizontally)
 
+;; rest of your .emacs goes here
+
+(message "My .emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
+                             (- (+ hi lo) (+ (first *emacs-load-start*) (second
+                             *emacs-load-start*)))))
