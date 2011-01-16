@@ -23,7 +23,7 @@
 (global-set-key (kbd "A-w") 'kill-this-buffer)
 (global-set-key "\M-t" 'textmate-goto-file)
 (global-set-key "\M-#" 'comment-dwim)
-
+(global-set-key (kbd "M-DEL") 'backward-kill-sexp)
 (global-set-key "\C-xh" (lambda (url) (interactive "MUrl: ")
 			  (switch-to-buffer (url-retrieve-synchronously url))
 			  (rename-buffer url t)
