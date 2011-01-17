@@ -191,6 +191,27 @@ autosave-dir "\\1") t)))
                                     (if (boundp 'old-fullscreen) old-fullscreen nil)
                                     (progn (setq old-fullscreen current-value)
                                            'fullboth)))))
+
+
+(defvar programming-modes
+  '(emacs-lisp-mode scheme-mode lisp-mode c-mode c++-mode ruby-mode
+    objc-mode latex-mode plain-tex-mode java-mode
+    php-mode css-mode js2-mode nxml-mode nxhtml-mode)
+  "List of modes related to programming")
+
+; Text-mate style indenting
+(defadvice yank (after indent-region activate)
+  (if (member major-mode programming-modes)
+      (indent-region (region-beginning) (region-end) nil)))
+
+(defun moz-connect()
+  (interactive)
+  (make-comint "moz-buffer" (cons "127.0.0.1" "4242"))
+  (global-set-key "\C-x\C-g" '(lambda ()
+                                (interactive)
+                                (save-buffer)
+                                (comint-send-string "*moz-buffer*" "this.BrowserReload()\n"))))
+
 (eval-when-compile (require 'cl))
 (defun toggle-transparency ()
   (interactive)
@@ -209,3 +230,4 @@ autosave-dir "\\1") t)))
 (message "My .emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
                              (- (+ hi lo) (+ (first *emacs-load-start*) (second
                              *emacs-load-start*)))))
+
