@@ -145,8 +145,7 @@ autosave-dir "\\1") t)))
 			    (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
 			    (local-set-key "\C-cb" 'js-send-buffer)k
 			    (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
-			    (local-set-key "\C-cl" 'js-load-file-and-go)
-			    ))
+			    (local-set-key "\C-cl" 'js-load-file-and-go)))
 
 ;; this is necessary for emacs 23, because it uses the alt/option key for meta.
 (setq mac-command-modifier 'meta)
