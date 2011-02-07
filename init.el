@@ -194,9 +194,21 @@ autosave-dir "\\1") t)))
 
 
 (defvar programming-modes
-  '(emacs-lisp-mode scheme-mode lisp-mode c-mode c++-mode ruby-mode
-    objc-mode latex-mode plain-tex-mode java-mode
-    php-mode css-mode js2-mode nxml-mode nxhtml-mode)
+  '(emacs-lisp-mode
+    scheme-mode
+    lisp-mode
+    c-mode
+    c++-mode
+    ruby-mode
+    objc-mode
+    latex-mode
+    plain-tex-mode
+    java-mode
+    php-mode
+    css-mode
+    js2-mode
+    nxml-mode
+    nxhtml-mode)
   "List of modes related to programming")
 
 ; Text-mate style indenting
