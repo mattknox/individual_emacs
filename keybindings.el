@@ -33,3 +33,4 @@
 (global-set-key "\C-c\C-g" 'gist-buffer-confirm)
 (global-set-key (kbd "C-S-N") 'word-count)
 (global-set-key (kbd "A-F") 'ack)
+(global-set-key (kbd "<f1>") 'maximize-frame)
