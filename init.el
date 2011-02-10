@@ -43,6 +43,7 @@ autosave-dir "\\1") t)))
                                   "/zencoding/zencoding-mode.el"
                                   "/snippet.el"
                                   "/uptime.el"
+                                  "/sibilant.el"
                                   "/anything/anything.el"
                                   "/anything/anything-match-plugin.el"
                                   "/anything/anything-config.el"))
