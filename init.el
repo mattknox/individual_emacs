@@ -114,6 +114,9 @@ autosave-dir "\\1") t)))
 (add-hook 'scheme-mode-hook
           (lambda()
 	    (paredit-mode t)))
+(add-hook 'sibilant-mode-hook
+          (lambda()
+	    (paredit-mode t)))
 (add-hook 'emacs-lisp-mode-hook
           (lambda()
 	    (paredit-mode t)))
