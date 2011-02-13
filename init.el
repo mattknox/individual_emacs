@@ -106,8 +106,6 @@ autosave-dir "\\1") t)))
 ;; (add-hook 'js2-mode-hook 'run-coding-hook)
 ;; (add-hook 'js2-mode-hook 'idle-highlight)
 
-;; need to find something do disable ruby inserting encoding strings
-
 (add-hook 'ruby-mode-hook
           (lambda()
 	    (ruby-electric-mode t)))
