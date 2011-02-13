@@ -21,7 +21,7 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
 
@@ -124,7 +124,7 @@ SQUEEZE nil means leave whitespaces other than line breaks untouched."
        (unwind-protect
            (progn ,@body)
          (set-buffer-modified-p modified)))))
-  
+
 (defun popup-preferred-width (list)
   "Return preferred width of popup to show `LIST' beautifully."
   (loop with tab-width = 4
@@ -299,7 +299,7 @@ See also `popup-item-propertize'."
   (popup-set-filtered-list popup list)
   (setf (popup-pattern popup) nil)
   (setf (popup-original-list popup) list))
-  
+
 (defun popup-set-filtered-list (popup list)
   (setf (popup-list popup) list
         (popup-offset popup) (if (> (popup-direction popup) 0)
@@ -437,7 +437,7 @@ See also `popup-item-propertize'."
         (popup-save-buffer-state
           (goto-char (point-max))
           (insert (make-string newlines ?\n))))
-      
+
       (if overflow
           (if foldable
               (progn
@@ -456,7 +456,7 @@ See also `popup-item-propertize'."
         (setq column 0)
         (decf popup-width margin-left)
         (setq margin-left-cancel t))
-      
+
       (dotimes (i height)
         (let (overlay begin w (dangle t) (prefix "") (postfix ""))
           (when around
@@ -579,11 +579,11 @@ See also `popup-item-propertize'."
                       (concat " " (or (popup-item-symbol item) " "))
                     "")
         for summary = (or (popup-item-summary item) "")
-        
+
         do
         ;; Show line and set item to the line
         (popup-set-line-item popup o item face margin-left margin-right scroll-bar-char sym summary)
-        
+
         finally
         ;; Remember current height
         (setf (popup-current-height popup) (- o offset))
@@ -812,11 +812,11 @@ See also `popup-item-propertize'."
   (and (eq margin t) (setq margin 1))
   (or margin-left (setq margin-left margin))
   (or margin-right (setq margin-right margin))
-  
+
   (let ((it (popup-fill-string string width popup-tip-max-width)))
     (setq width (car it)
           lines (cdr it)))
-  
+
   (setq tip (popup-create point width height
                           :min-height min-height
                           :around around
@@ -1051,7 +1051,7 @@ list of submenu."
     (define-key map "\C-p"      'popup-previous)
     (define-key map [up]        'popup-previous)
 
-    (define-key map [f1]        'popup-help)
+    (define-key map [f2]        'popup-help)
     (define-key map (kbd "\C-?") 'popup-help)
 
     (define-key map "\C-s"      'popup-isearch)

@@ -366,7 +366,7 @@ If there is no common part, this will be nil.")
     (define-key map [down] 'ac-next)
     (define-key map [up] 'ac-previous)
 
-    (define-key map [f1] 'ac-help)
+    (define-key map [f2] 'ac-help)
     (define-key map [M-f1] 'ac-persist-help)
     (define-key map (kbd "C-?") 'ac-help)
     (define-key map (kbd "C-M-?") 'ac-persist-help)
@@ -852,7 +852,7 @@ You can not use it in source definition like (prefix . `NAME')."
                 (setq point nil))
             (if point
                 (setq prefix-def prefix))))
-        
+
         if (equal prefix prefix-def) do (push source sources)
 
         finally return
@@ -1336,7 +1336,7 @@ that have been made before in this function."
       (ac-complete)
     (when (and (ac-inline-live-p)
                ac-common-part)
-      (ac-inline-hide) 
+      (ac-inline-hide)
       (ac-expand-string ac-common-part (eq last-command this-command))
       (setq ac-common-part nil)
       t)))
