@@ -4,24 +4,24 @@
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
       user-specific-dir (concat dotfiles-dir user-login-name))
 
-;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
 ;; (custom-set-variables
 ;;   '(auto-save-file-name-transforms '((".*" "~/.emacs.d/backups/" t)))
 ;;   '(backup-directory-alist '(("." . "~/.emacs.d/backups/"))))
 
 ;; Put autosave files (ie #foo#) in one place, *not*
 ;; scattered all over the file system!
-(defvar autosave-dir
- (concat "/tmp/emacs_autosaves/" (user-login-name) "/"))
+(setq autosave-dir
+ (concat user-specific-dir "/emacs_autosaves/"))
 (make-directory autosave-dir t)
-(setq auto-save-file-name-transforms `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat
-autosave-dir "\\1") t)))
+(setq auto-save-file-name-transforms `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat autosave-dir "\\1") t)))
+;(setq auto-save-file-name-transforms '((".*" autosave-dir t)))
 
 ;; Put backup files (ie foo~) in one place too. (The backup-directory-alist
 ;; list contains regexp=>directory mappings; filenames matching a regexp are
 ;; backed up in the corresponding directory. Emacs will mkdir it if necessary.)
-(defvar backup-dir (concat "/tmp/emacs_backups/" (user-login-name) "/"))
+(setq backup-dir (concat user-specific-dir "/emacs_backups/"))
 (setq backup-directory-alist (list (cons "." backup-dir)))
+(make-directory backup-dir t)
 
 (require 'maxframe)
 (autoload 'color-theme-knoxboard "knoxboard" "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
