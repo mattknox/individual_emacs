@@ -1,4 +1,5 @@
 (defvar *emacs-load-start* (current-time))
+(setq swank-clojure-classpath '("/usr/local//Cellar/clojure/1.2.0/clojure.jar"))
 
 (defvar paredit-space-for-delimiter-predicates nil)
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
