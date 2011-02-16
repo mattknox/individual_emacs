@@ -1,5 +1,14 @@
 (defvar *emacs-load-start* (current-time))
 (setq swank-clojure-classpath '("/usr/local//Cellar/clojure/1.2.0/clojure.jar"))
+(defvar slime-lisp-implementations
+   '((cmucl ("/usr/local/bin/lisp") :coding-system iso-8859-1-unix)
+;     (sbcl ("/usr/local/bin/sbcl" "--core"
+;     "/Users/pinochle/bin/sbcl.core-with-swank") :init (lambda (port-file
+;     _) (format "(swank:start-server %S :coding-system
+;     \"utf-8-unix\")\n" port-file)))
+;     (clojure ("java" "-classpath" "" "clojure.main" "--repl") :init
+;     swank-clojure-init))
+   (clojure ("/usr/local/bin/clj") :init swank-clojure-init)))
 
 (defvar paredit-space-for-delimiter-predicates nil)
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
@@ -185,6 +194,9 @@
 (require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook
      	  (lambda () (rinari-launch)))
+
+(autoload 'chicken-slime "chicken-slime" "SWANK backend for Chicken" t)
+(setq swank-chicken-path "~/bin/scm/swank-chicken.scm")
 
 (defun toggle-fullscreen (&optional f)
       (interactive)
