@@ -40,6 +40,7 @@
 (setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/w3m" "/zencoding" "/fuel_new" "/anything"))
 
 (setq user-specific-load-files '( "/keybindings.el"
+                                  "/chicken-slime.el"
                                   "/defuns.el"
                                   "/fuel_new/fu.el"
                                   "/ensime/src/main/elisp/ensime.el"
