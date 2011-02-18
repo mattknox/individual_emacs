@@ -8,7 +8,7 @@
 ;     \"utf-8-unix\")\n" port-file)))
 ;     (clojure ("java" "-classpath" "" "clojure.main" "--repl") :init
 ;     swank-clojure-init))
-   (clojure ("/usr/local/bin/clj") :init swank-clojure-init)))
+     (clojure ("java" "-classpath" "/usr/local/Cellar/clojure/1.2.0/clojure.jar" "clojure.main" "--repl") :init swank-clojure-init)))
 
 (defvar paredit-space-for-delimiter-predicates nil)
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
