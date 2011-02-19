@@ -37,7 +37,7 @@
 (autoload 'color-theme-knoxboard "knoxboard" "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
 \(fn)" t nil)
 
-(setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/w3m" "/zencoding" "/fuel_new" "/anything"))
+(setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/zencoding" "/fuel_new" "/anything"))
 
 (setq user-specific-load-files '( "/keybindings.el"
                                   "/defuns.el"
@@ -86,19 +86,19 @@
 
 (require 'anything-match-plugin)
 (require 'anything-config)
-(require 'w3m-load)
-(require 'w3m-e21)
-(provide 'w3m-e23)
+;(require 'w3m-load)
+;(require 'w3m-e21)
+;(provide 'w3m-e23)
 (require 'textmate)
 (require 'rdebug)
 (require 'edit-server)
 (setq edit-server-new-frame nil)
 
-(setq browse-url-browser-function 'w3m-browse-url)
-(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
+;(setq browse-url-browser-function 'w3m-browse-url)
+;(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
 ;; optional keyboard short-cut
 (global-set-key "\C-xm" 'browse-url-at-point)
-(setq w3m-use-cookies t)
+;(setq w3m-use-cookies t)
 
 ; FIXME: shouldn't need this here, put it in because of load order strangeness
 (defun run-coding-hook ()
