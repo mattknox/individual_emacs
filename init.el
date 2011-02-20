@@ -9,6 +9,7 @@
 ;     (clojure ("java" "-classpath" "" "clojure.main" "--repl") :init
 ;     swank-clojure-init))
      (clojure ("java" "-classpath" "/usr/local/Cellar/clojure/1.2.0/clojure.jar" "clojure.main" "--repl") :init swank-clojure-init)))
+;   (clojure ("/usr/local/bin/clj") :init swank-clojure-init)))
 
 (defvar paredit-space-for-delimiter-predicates nil)
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
@@ -196,8 +197,8 @@
 (add-hook 'rhtml-mode-hook
      	  (lambda () (rinari-launch)))
 
-;(autoload 'chicken-slime "chicken-slime" "SWANK backend for Chicken" t)
-;(setq swank-chicken-path "~/bin/scm/swank-chicken.scm")
+(autoload 'chicken-slime "chicken-slime" "SWANK backend for Chicken" t)
+(setq swank-chicken-path "~/bin/scm/swank-chicken.scm")
 
 (defun toggle-fullscreen (&optional f)
       (interactive)
