@@ -24,8 +24,10 @@
 (setq autosave-dir
  (concat user-specific-dir "/emacs_autosaves/"))
 (make-directory autosave-dir t)
-(setq auto-save-file-name-transforms `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat autosave-dir "\\1") t)))
-;(setq auto-save-file-name-transforms '((".*" autosave-dir t)))
+;(setq auto-save-file-name-transforms `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat autosave-dir "\\1") t)))
+;(setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
+;(setq auto-save-file-name-transforms `((".*\\([^/]*\\)" "~/.emacs.d/matt/emacs_autosaves/\\1" t)))
+; yet another failed attempt at fixing auto-save-file-name-transforms
 
 ;; Put backup files (ie foo~) in one place too. (The backup-directory-alist
 ;; list contains regexp=>directory mappings; filenames matching a regexp are
