@@ -36,14 +36,10 @@
 (setq backup-directory-alist (list (cons "." backup-dir)))
 (make-directory backup-dir t)
 
-(require 'maxframe)
-(autoload 'color-theme-knoxboard "knoxboard" "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
-\(fn)" t nil)
+(setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/zencoding" "/fuel_new" "/anything" "/elisp"))
 
-(setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/zencoding" "/fuel_new" "/anything"))
-
-(setq user-specific-load-files '( "/keybindings.el"
-                                  "/defuns.el"
+(setq user-specific-load-files '( "/elisp/keybindings.el"
+                                  "/elisp/defuns.el"
                                   "/fuel_new/fu.el"
                                   "/ensime/src/main/elisp/ensime.el"
                                   "/scala/scala-mode.el"
@@ -54,9 +50,9 @@
                                   "/coffee-mode/coffee-mode.el"
                                   "/twittering-mode/twittering-mode.el"
                                   "/zencoding/zencoding-mode.el"
-                                  "/snippet.el"
-                                  "/uptime.el"
-                                  "/sibilant.el"
+                                  "/elisp/snippet.el"
+                                  "/elisp/uptime.el"
+                                  "/elisp/sibilant.el"
 ;                                  "/chicken-slime.el"
                                   "/anything/anything.el"
                                   "/anything/anything-match-plugin.el"
@@ -80,6 +76,11 @@
       user-specific-loadpath-dirs)
 (mapc (lambda (x) (load-file (concat user-specific-dir x)))
       user-specific-load-files)
+
+(require 'maxframe)
+(autoload 'color-theme-knoxboard "knoxboard" "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
+\(fn)" t nil)
+
 
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
