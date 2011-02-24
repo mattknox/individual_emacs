@@ -37,12 +37,12 @@ trait RPCTarget { self: Project =>
   }
 
   def rpcReplConfig(callId: Int) {
-    sendRPCReturn(toWF(this.config.replConfig), callId)
+    sendRPCReturn(toWF(config.replConfig), callId)
   }
 
   def rpcDebugConfig(callId: Int) {
     debugInfo = Some(new ProjectDebugInfo(config))
-    sendRPCReturn(toWF(this.config.debugConfig), callId)
+    sendRPCReturn(toWF(config.debugConfig), callId)
   }
 
   def rpcBuilderInit(callId: Int) {
@@ -95,6 +95,12 @@ trait RPCTarget { self: Project =>
     analyzer ! RPCRequestEvent(ReloadFileReq(file), callId)
   }
 
+  def rpcRemoveFile(f: String, callId: Int) {
+    val file: File = new File(f)
+    analyzer ! RPCRequestEvent(RemoveFileReq(file), callId)
+    sendRPCAckOK(callId)
+  }
+
   def rpcTypecheckAll(callId: Int) {
     analyzer ! RPCRequestEvent(ReloadAllReq(), callId)
   }
@@ -143,6 +149,14 @@ trait RPCTarget { self: Project =>
     analyzer ! RPCRequestEvent(ImportSuggestionsReq(new File(f), point, names), callId)
   }
 
+  def rpcPublicSymbolSearch(names: List[String], maxResults: Int, callId: Int) {
+    analyzer ! RPCRequestEvent(PublicSymbolSearchReq(names, maxResults), callId)
+  }
+
+  def rpcUsesOfSymAtPoint(f: String, point: Int, callId: Int) {
+    analyzer ! RPCRequestEvent(UsesOfSymAtPointReq(new File(f), point), callId)
+  }
+
   def rpcTypeAtPoint(f: String, point: Int, callId: Int) {
     analyzer ! RPCRequestEvent(TypeAtPointReq(new File(f), point), callId)
   }
@@ -180,13 +194,13 @@ trait RPCTarget { self: Project =>
       FileUtils.writeChanges(changeList) match {
         case Right(_) => sendRPCAckOK(callId)
         case Left(e) =>
-          sendRPCError(ErrFormatFailed, 
-	    Some("Could not write any formatting changes: " + e), callId)
+        sendRPCError(ErrFormatFailed, 
+	  Some("Could not write any formatting changes: " + e), callId)
       }
     } catch {
       case e: ScalaParserException =>
-        sendRPCError(ErrFormatFailed, 
-	  Some("Cannot format broken syntax: " + e), callId)
+      sendRPCError(ErrFormatFailed, 
+	Some("Cannot format broken syntax: " + e), callId)
     }
 
   }

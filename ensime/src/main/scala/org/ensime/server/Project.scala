@@ -19,13 +19,17 @@ case class RPCRequestEvent(req: Any, callId: Int)
 case class TypeCheckResultEvent(notes: NoteList)
 case class AnalyzerReadyEvent()
 case class AnalyzerShutdownEvent()
+case class IndexerReadyEvent()
+
 
 case class ReloadFileReq(file: File)
 case class ReloadAllReq()
 case class RemoveFileReq(file: File)
 case class ScopeCompletionReq(file: File, point: Int, prefix: String, constructor: Boolean)
 case class TypeCompletionReq(file: File, point: Int, prefix: String)
-case class ImportSuggestionsReq(file: File, point: Int, names:List[String])
+case class ImportSuggestionsReq(file: File, point: Int, names: List[String])
+case class PublicSymbolSearchReq(names: List[String], maxResults: Int)
+case class UsesOfSymAtPointReq(file: File, point: Int)
 case class PackageMemberCompletionReq(path: String, prefix: String)
 case class SymbolAtPointReq(file: File, point: Int)
 case class InspectTypeReq(file: File, point: Int)
@@ -45,9 +49,12 @@ class Project(val protocol: Protocol) extends Actor with RPCTarget {
 
   protocol.setRPCTarget(this)
 
+  // Note: would like to use Option[ProjectConfig] here but causes
+  // prez-compiler to kerplode :\
+  protected var config: ProjectConfig = ProjectConfig.nullConfig
+
   protected var analyzer: Actor = actor {}
   protected var builder: Option[Actor] = None
-  protected var config: ProjectConfig = ProjectConfig.nullConfig
   protected var debugInfo: Option[ProjectDebugInfo] = None
 
   private var undoCounter = 0
@@ -66,6 +73,9 @@ class Project(val protocol: Protocol) extends Actor with RPCTarget {
           }
           case msg: AnalyzerReadyEvent => {
             protocol.sendCompilerReady
+          }
+          case msg: IndexerReadyEvent => {
+            protocol.sendIndexerReady
           }
           case result: TypeCheckResultEvent => {
             protocol.sendTypeCheckResult(result.notes)
@@ -114,7 +124,7 @@ class Project(val protocol: Protocol) extends Actor with RPCTarget {
   }
 
   protected def initProject(conf: ProjectConfig) {
-    this.config = conf
+    config = conf
     restartCompiler
     shutdownBuilder
     undos.clear
@@ -123,7 +133,7 @@ class Project(val protocol: Protocol) extends Actor with RPCTarget {
 
   protected def restartCompiler() {
     analyzer ! AnalyzerShutdownEvent()
-    analyzer = new Analyzer(this, protocol, this.config)
+    analyzer = new Analyzer(this, protocol, config)
     analyzer.start
   }
 
@@ -132,11 +142,11 @@ class Project(val protocol: Protocol) extends Actor with RPCTarget {
       case Some(b) => b
       case None =>
         {
-          val b = new IncrementalBuilder(this, protocol, this.config)
-          builder = Some(b)
-          b.start
-          b
-        }
+        val b = new IncrementalBuilder(this, protocol, config)
+        builder = Some(b)
+        b.start
+        b
+      }
     }
   }
 

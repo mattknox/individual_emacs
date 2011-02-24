@@ -10,6 +10,7 @@
 
 
 \title{ENSIME: User Manual}
+\author{Aemon Cannon}
 
 \begin{document}
 
@@ -91,7 +92,8 @@ A common work-flow when hacking ENSIME:
 \item Restart ENSIME with M-x ensime
 \end{itemize}
 
-
+\noindent
+Remember to run 'sbt update' after doing a fresh checkout. Without it, you will not have the required jars included in your project - which will cause the compilation to fail.
 
 \section{Defining a Project}
 
@@ -115,7 +117,7 @@ If the configuration directive :sbt-compile-on-save is set to 't', ENSIME will i
 
 \noindent
 \textbf{Subprojects}:\\
-Each sbt subproject must have it's own .ensime file. The server is smart enough to notice that the project is a subproject, and will find dependencies that are shared between all subprojects.
+If your project is made up of subprojects, you must declare each subproject along with its dependencies in the configuration file. See the :sbt-subprojects directive in section \ref{sec:configformat} for more information. ENSIME will then prompt you on startup for which subproject you'd like to work on. Note that there will be a separate instance of the ENSIME server process for each subproject you open.
 
 \subsubsection{Maven}
 
@@ -196,8 +198,20 @@ Should ENSIME issue a 'compile' command to sbt whenever you save a file? This is
 \vspace{5 mm}
 
 \noindent
-{\bf :sbt-subproject-dependencies ([directory name]*)}\\
-Declare sbt sub-project dependencies. List the directory names of the dependencies and ENSIME will include their sources and dependencies when analyzing the current project.
+{\bf :sbt-subprojects ([sbt-subproject]*)}\\
+Declare sbt subprojects. Each item in the list should be a property list with the following structure: (:name ``myproj'' :deps (``otherproj'')), where :deps is a possibly empty list of subprojects that this subproject depends on. For example, here's how you'd declare two subprojects - a 'web' subproject which depends on a 'core' subproject:
+\begin{mylisting}
+\begin{verbatim}
+(
+  :use-sbt t
+  :sbt-subprojects (
+     (:name "web" :deps ("core"))
+     (:name "core" :deps ())
+  )
+)
+\end{verbatim}
+\end{mylisting}
+
 \vspace{5 mm}
 
 
@@ -275,8 +289,12 @@ Customize the behavior of the source formatter. All Scalariform preferences are 
 \begin{tabular}{|l|l|}
   \hline
   {\bf :alignParameters} & t or nil  \\ \hline
+  {\bf :alignSingleLineCaseStatements} & t or nil  \\ \hline
+  {\bf :alignSingleLineCaseStatements\_maxArrowIndent} & 1-100  \\ \hline
   {\bf :compactStringConcatenation} & t or nil  \\ \hline
   {\bf :doubleIndentClassDeclaration} & t or nil  \\ \hline
+  {\bf :indentLocalDefs} & t or nil  \\ \hline
+  {\bf :indentPackageBlocks} & t or nil  \\ \hline
   {\bf :indentSpaces} & 1-10  \\ \hline
   {\bf :preserveSpaceBeforeArguments} & t or nil  \\ \hline
   {\bf :rewriteArrowSymbols} & t or nil  \\ \hline
@@ -366,6 +384,12 @@ Select a region by setting the mark using \emph{C-SPACE} and then placing the po
 \textbf{Inline Local}:\\
 Place your cursor over the local val who's value you'd like to inline. Type \emph{M-x ensime-refactor-inline-local} and follow the minibuffer instructions.\\
 
+\subsection{Global Type and Method Search}
+
+Type \emph{C-c C-v v} to start a global search. Type space separated keywords to filter the results of the search. For example, if I wanted to find java.util.Vector, I might start by typing 'vector', which would list all symbols containing the word 'vector'(case-insensitive), and then I would type 'java' to further refine the search. \emph{C-p} and \emph{C-n} move the selection up and down, respectively, and \emph{ENTER} will jump to the source or definition of the selected symbol.
+
+Note that typing a keyword with a capital letter will automatically enable case-sensitivity.
+
 \subsection{Source Formatting}
 
 ENSIME uses the Scalariform library to format Scala sources. Type \emph{C-c C-v f} to format the current buffer. See section \ref{sec:configformat} for instructions on how to customize the formatting preferences.
@@ -417,6 +441,11 @@ Pop back to previously visited position.
 \vspace{5 mm}
 
 \noindent
+{\bf C-c v v}\\
+Search globally for methods or types.
+\vspace{5 mm}
+
+\noindent
 {\bf Control+Right-Click(on an imported package)}\\
 Inspect the package under cursor.
 \vspace{5 mm}
@@ -434,6 +463,11 @@ Inspect the package of the current source file.
 \noindent
 {\bf C-c C-v o}\\
 Inspect the package specified in .ensime as :project-package.
+\vspace{5 mm}
+
+\noindent
+{\bf C-c C-v r}\\
+List all references to the symbol under the cursor.
 \vspace{5 mm}
 
 \noindent
@@ -546,9 +580,23 @@ Start the automatic configuration file generator.
 
 \section{Troubleshooting}
 
+\subsection{Diagnosing Issues}
 You may want to examine the contents of the \emph{*inferior-ensime-server*} buffer. This buffer collects the stdout and stderr of the server process, which is useful for debugging. If the compiler is in a broken state, you can restart it with M-x ensime-reload. Otherwise, if things are irreparably b0rked, you can always kill the \emph{*inferior-ensime-server*} buffer (which kills the server process) and restart ensime with M-x ensime. 
 
 If you've hit a recurring bug, please post an issue to github.com/aemoncannon/ensime. Please include your OS, Emacs version, ENSIME version, and the contents of \emph{*inferior-ensime-server*}.
+
+\subsection{Emacs Binary Search Path}
+When launching the embedded sbt shell, or the Scala repl, ENSIME uses the Emacs start-process command. Rather than using the value of the PATH environment variable, this command searches for binaries using the paths stored at the Emacs variable exec-path. On some Windows and OSX machines, exec-path will not by default contain the value of PATH. See \begin{verbatim}http://xahlee.org/emacs/emacs_env_var_paths.html\end{verbatim} for more details. For example, the following Emacs Lisp could be used to manually add a Scala binary directory to the exec-path:
+
+\begin{mylisting}
+\begin{verbatim}
+(setq exec-path (append exec-path (list "/home/aemon/scala/bin" )))
+\end{verbatim}
+\end{mylisting}
+
+
+\subsection{Custom JVM Options}
+If you're having problems with the default arguments (max heap, initial heap) that ENSIME uses in its startup script, you can modify the environment variable ENSIME\_JVM\_ARGS to override the arguments that are passed to the ENSIME Server JVM.
 
 \newpage
 

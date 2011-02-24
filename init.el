@@ -36,12 +36,12 @@
 (setq backup-directory-alist (list (cons "." backup-dir)))
 (make-directory backup-dir t)
 
-(setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/zencoding" "/fuel_new" "/anything" "/elisp"))
+(setq user-specific-loadpath-dirs '("/arc" "/ensime/dist/elisp" "/rhtml" "/scala" "/zencoding" "/fuel_new" "/anything" "/elisp"))
 
 (setq user-specific-load-files '( "/elisp/keybindings.el"
                                   "/elisp/defuns.el"
                                   "/fuel_new/fu.el"
-                                  "/ensime/src/main/elisp/ensime.el"
+                                  "/ensime/dist/elisp/ensime.el"
                                   "/scala/scala-mode.el"
                                   "/arc/inferior-arc.el"
                                   "/arc/arc.el"
@@ -77,6 +77,7 @@
 (mapc (lambda (x) (load-file (concat user-specific-dir x)))
       user-specific-load-files)
 
+(require 'scala-mode-auto)
 (require 'maxframe)
 (autoload 'color-theme-knoxboard "knoxboard" "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
 \(fn)" t nil)
@@ -262,4 +263,3 @@
 (message "My .emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
                              (- (+ hi lo) (+ (first *emacs-load-start*) (second
                              *emacs-load-start*)))))
-
