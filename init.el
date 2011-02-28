@@ -66,6 +66,7 @@
                       ("\\.scala$" . scala-mode)
                       ("\\.html.erb$" . rhtml-mode)
                       ("\\.yml$" . yaml-mode)
+                      ("\\.rkt$" . scheme-mode)
                       ("\\.arc$" . arc-mode)))
 
 (mapc (lambda (x) (add-to-list 'auto-mode-alist x))

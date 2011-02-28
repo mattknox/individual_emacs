@@ -184,4 +184,10 @@
   (interactive "r")
   (align-regexp begin end "\\(\\s-*\\)=" 1 1 ))
 
+(defun racket-enter! ()
+  (interactive)
+  (comint-send-string (scheme-proc)
+                      (format "(enter! (file \"%s\") #:verbose)\n" buffer-file-name))
+  (switch-to-scheme t))
+
 (provide 'defuns)
