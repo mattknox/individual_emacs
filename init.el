@@ -12,7 +12,7 @@
 ;; Put autosave files (ie #foo#) in one place, *not*
 ;; scattered all over the file system!
 (defvar autosave-dir
- (concat "/tmp/emacs_autosaves/" (user-login-name) "/"))
+ (concat user-specific-dir "/emacs_autosaves/"))
 (make-directory autosave-dir t)
 (setq auto-save-file-name-transforms `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat
 autosave-dir "\\1") t)))
