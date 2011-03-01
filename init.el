@@ -1,38 +1,51 @@
 (defvar *emacs-load-start* (current-time))
+(setq swank-clojure-classpath '("/usr/local//Cellar/clojure/1.2.0/clojure.jar"))
+(defvar slime-lisp-implementations
+   '((cmucl ("/usr/local/bin/lisp") :coding-system iso-8859-1-unix)
+;     (sbcl ("/usr/local/bin/sbcl" "--core"
+;     "/Users/pinochle/bin/sbcl.core-with-swank") :init (lambda (port-file
+;     _) (format "(swank:start-server %S :coding-system
+;     \"utf-8-unix\")\n" port-file)))
+;     (clojure ("java" "-classpath" "" "clojure.main" "--repl") :init
+;     swank-clojure-init))
+     (clojure ("java" "-classpath" "/usr/local/Cellar/clojure/1.2.0/clojure.jar" "clojure.main" "--repl") :init swank-clojure-init)))
+;   (clojure ("/usr/local/bin/clj") :init swank-clojure-init)))
 
 (defvar paredit-space-for-delimiter-predicates nil)
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
       user-specific-dir (concat dotfiles-dir user-login-name))
 
-;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
 ;; (custom-set-variables
 ;;   '(auto-save-file-name-transforms '((".*" "~/.emacs.d/backups/" t)))
 ;;   '(backup-directory-alist '(("." . "~/.emacs.d/backups/"))))
 
 ;; Put autosave files (ie #foo#) in one place, *not*
 ;; scattered all over the file system!
+<<<<<<< HEAD
 (defvar autosave-dir
+=======
+(setq autosave-dir
+>>>>>>> 443323ce0a79fa32c8c43a97a2f04e0eaa3e0ec9
  (concat user-specific-dir "/emacs_autosaves/"))
 (make-directory autosave-dir t)
-(setq auto-save-file-name-transforms `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat
-autosave-dir "\\1") t)))
+;(setq auto-save-file-name-transforms `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat autosave-dir "\\1") t)))
+;(setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
+;(setq auto-save-file-name-transforms `((".*\\([^/]*\\)" "~/.emacs.d/matt/emacs_autosaves/\\1" t)))
+; yet another failed attempt at fixing auto-save-file-name-transforms
 
 ;; Put backup files (ie foo~) in one place too. (The backup-directory-alist
 ;; list contains regexp=>directory mappings; filenames matching a regexp are
 ;; backed up in the corresponding directory. Emacs will mkdir it if necessary.)
-(defvar backup-dir (concat user-specific-dir "/emacs_backups/"))
+(setq backup-dir (concat user-specific-dir "/emacs_backups/"))
 (setq backup-directory-alist (list (cons "." backup-dir)))
+(make-directory backup-dir t)
 
-(require 'maxframe)
-(autoload 'color-theme-knoxboard "knoxboard" "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
-\(fn)" t nil)
+(setq user-specific-loadpath-dirs '("/arc" "/ensime/dist/elisp" "/rhtml" "/scala" "/zencoding" "/fuel_new" "/anything" "/elisp"))
 
-(setq user-specific-loadpath-dirs '("/arc" "/ensime/src/main/elisp" "/rhtml" "/scala" "/w3m" "/zencoding" "/fuel_new" "/anything"))
-
-(setq user-specific-load-files '( "/keybindings.el"
-                                  "/defuns.el"
+(setq user-specific-load-files '( "/elisp/keybindings.el"
+                                  "/elisp/defuns.el"
                                   "/fuel_new/fu.el"
-                                  "/ensime/src/main/elisp/ensime.el"
+                                  "/ensime/dist/elisp/ensime.el"
                                   "/scala/scala-mode.el"
                                   "/arc/inferior-arc.el"
                                   "/arc/arc.el"
@@ -41,9 +54,10 @@ autosave-dir "\\1") t)))
                                   "/coffee-mode/coffee-mode.el"
                                   "/twittering-mode/twittering-mode.el"
                                   "/zencoding/zencoding-mode.el"
-                                  "/snippet.el"
-                                  "/uptime.el"
-                                  "/sibilant.el"
+                                  "/elisp/snippet.el"
+                                  "/elisp/uptime.el"
+                                  "/elisp/sibilant.el"
+;                                  "/chicken-slime.el"
                                   "/anything/anything.el"
                                   "/anything/anything-match-plugin.el"
                                   "/anything/anything-config.el"))
@@ -56,6 +70,7 @@ autosave-dir "\\1") t)))
                       ("\\.scala$" . scala-mode)
                       ("\\.html.erb$" . rhtml-mode)
                       ("\\.yml$" . yaml-mode)
+                      ("\\.rkt$" . scheme-mode)
                       ("\\.arc$" . arc-mode)))
 
 (mapc (lambda (x) (add-to-list 'auto-mode-alist x))
@@ -67,6 +82,12 @@ autosave-dir "\\1") t)))
 (mapc (lambda (x) (load-file (concat user-specific-dir x)))
       user-specific-load-files)
 
+(require 'scala-mode-auto)
+(require 'maxframe)
+(autoload 'color-theme-knoxboard "knoxboard" "Color theme by Matt Knox, based off twilight.el and blackboard.el, created 2010-04
+\(fn)" t nil)
+
+
 (setq fuel-listener-factor-binary "~/bin/factor/factor")
 (setq fuel-listener-factor-image "~/bin/factor/factor.image")
 
@@ -75,19 +96,19 @@ autosave-dir "\\1") t)))
 
 (require 'anything-match-plugin)
 (require 'anything-config)
-(require 'w3m-load)
-(require 'w3m-e21)
-(provide 'w3m-e23)
+;(require 'w3m-load)
+;(require 'w3m-e21)
+;(provide 'w3m-e23)
 (require 'textmate)
 (require 'rdebug)
 (require 'edit-server)
 (setq edit-server-new-frame nil)
 
-(setq browse-url-browser-function 'w3m-browse-url)
-(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
+;(setq browse-url-browser-function 'w3m-browse-url)
+;(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
 ;; optional keyboard short-cut
 (global-set-key "\C-xm" 'browse-url-at-point)
-(setq w3m-use-cookies t)
+;(setq w3m-use-cookies t)
 
 ; FIXME: shouldn't need this here, put it in because of load order strangeness
 (defun run-coding-hook ()
@@ -105,8 +126,6 @@ autosave-dir "\\1") t)))
 ;; (add-hook 'js2-mode-hook 'esk-paredit-nonlisp)
 ;; (add-hook 'js2-mode-hook 'run-coding-hook)
 ;; (add-hook 'js2-mode-hook 'idle-highlight)
-
-;; need to find something do disable ruby inserting encoding strings
 
 (add-hook 'ruby-mode-hook
           (lambda()
@@ -186,6 +205,11 @@ autosave-dir "\\1") t)))
 (require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook
      	  (lambda () (rinari-launch)))
+
+(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+
+(autoload 'chicken-slime "chicken-slime" "SWANK backend for Chicken" t)
+(setq swank-chicken-path "~/bin/scm/swank-chicken.scm")
 
 (defun toggle-fullscreen (&optional f)
       (interactive)

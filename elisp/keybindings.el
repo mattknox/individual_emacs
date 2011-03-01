@@ -1,3 +1,5 @@
+; like universal argument, don't use it much, need C-u
+(global-set-key (kbd "C-S-u") 'universal-argument)
 (global-set-key (kbd "C-u") 'forward-sexp)
 (global-set-key (kbd "C-t") 'transpose-sexps)
 (global-set-key (kbd "C-M-t") 'transpose-chars)

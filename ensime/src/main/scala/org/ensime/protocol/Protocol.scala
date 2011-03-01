@@ -1,12 +1,13 @@
 package org.ensime.protocol
 
 import java.io._
-import org.ensime.config.{ProjectConfig, DebugConfig, ReplConfig}
+import org.ensime.config.{ ProjectConfig, DebugConfig, ReplConfig }
 import org.ensime.debug.{ DebugUnit, DebugSourceLinePairs }
 import org.ensime.model._
 import org.ensime.server._
 import org.ensime.util._
 import scala.actors._
+import scala.tools.nsc.util.{ Position, RangePosition }
 
 case class IncomingMessageEvent(obj: Any)
 case class OutgoingMessageEvent(obj: Any)
@@ -32,6 +33,10 @@ object ProtocolConst {
 
   val ErrAnalyzerNotReady = 209
   val ErrExceptionInAnalyzer = 210
+
+  val ErrFileDoesNotExist = 211
+
+  val ErrExceptionInIndexer = 212
 
 }
 
@@ -166,6 +171,14 @@ trait Protocol extends ProtocolConversions {
   def sendCompilerReady()
 
   /**
+   * Send a notification that the indexer has completed indexing
+   * the classpath.
+   *
+   * @return        Void
+   */
+  def sendIndexerReady()
+
+  /**
    * Send notes describing errors, warnings that the compiler
    * generates. These results are generated asynchronously,
    * and not in response to any single RPC call.
@@ -198,7 +211,11 @@ trait ProtocolConversions {
   def toWF(value: CallCompletionInfo): WireFormat
   def toWF(value: InterfaceInfo): WireFormat
   def toWF(value: TypeInspectInfo): WireFormat
+  def toWF(value: SymbolSearchResults): WireFormat
   def toWF(value: ImportSuggestions): WireFormat
+  def toWF(value: SymbolSearchResult): WireFormat
+  def toWF(value: Position): WireFormat
+  def toWF(value: RangePosition): WireFormat
 
   def toWF(value: RefactorFailure): WireFormat
   def toWF(value: RefactorEffect): WireFormat

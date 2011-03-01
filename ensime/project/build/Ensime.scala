@@ -14,8 +14,9 @@ class EnsimeProject(info: ProjectInfo) extends DefaultProject(info){
   val maven = "org.apache.maven" % "maven-ant-tasks" % "2.1.0" % "compile;runtime;test"
   val scalatest = "org.scalatest" % "scalatest" % "1.2" % "test"
   val jdt = "org.eclipse.jdt" % "core" % "3.4.2.v_883_R34x" % "compile;runtime;test"
-  val scalariform = "org.scalariform" % "scalariform_2.8.0" % "0.0.5"%"compile;runtime;test"
+  val scalariform = "org.scalariform" %% "scalariform" % "0.0.8" % "compile;runtime;test"
 //  val refactoring = "org.scala-refactoring" % "org.scala-refactoring.library" % "0.2.0-SNAPSHOT"%"compile;runtime;test"
+
   val asm = "asm" % "asm" % "3.2"
   val asmCommons = "asm" % "asm-commons" % "3.2"
 
@@ -51,9 +52,7 @@ class EnsimeProject(info: ProjectInfo) extends DefaultProject(info){
 
 
     // Grab all jars..
-    val cpLibs = ("dist" / "lib" ** "*.jar").get.map{ p => 
-      p.toString.replace("./dist/", "")
-    }
+    val cpLibs = ((Path.fromString(".", "dist") ## ) / "lib" ** "*.jar").get
 
     def writeScript(classpath:String, from:String, to:String){
       val tmplF = new File(from)
@@ -72,11 +71,11 @@ class EnsimeProject(info: ProjectInfo) extends DefaultProject(info){
 
     // Expand the server invocation script templates.
 
-    writeScript(cpLibs.mkString(":"), 
-      "./etc/scripts/server.sh",
-      "./dist/bin/server.sh")
+    writeScript(cpLibs.mkString(":").replace("\\", "/"),
+      "./etc/scripts/server",
+      "./dist/bin/server")
 
-    writeScript("\"" + cpLibs.mkString(";") + "\"", 
+    writeScript("\"" + cpLibs.mkString(";").replace("/", "\\") + "\"",
       "./etc/scripts/server.bat",
       "./dist/bin/server.bat")
 
@@ -105,10 +104,11 @@ class EnsimeProject(info: ProjectInfo) extends DefaultProject(info){
   } dependsOn(stage) describedAs("Compress the deployment directory.")
 
 
-  lazy val publish_manual = task {
+  lazy val publishManual = task {
     log.info("Converting manual to html..")
     val target = "/tmp/ensime_manual.html"
     val cwd = Some(new File("etc"))
+    doSh("pdflatex manual.ltx", cwd)!!log
     doSh("cat manual_head.html > " + target, cwd)!!log
     doSh("tth -r -u -Lmanual < manual.ltx >> " + target, cwd)!!(log)
     doSh("cat manual_tail.html >> " + target, cwd)!!log

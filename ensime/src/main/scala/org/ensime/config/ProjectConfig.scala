@@ -11,17 +11,122 @@ import scalariform.formatter.preferences._
 
 object ProjectConfig {
 
+  trait FormatHandler {
+    def rootDir(): Option[String]
+    def useSbt(): Boolean
+    def useMaven(): Boolean
+    def useIvy(): Boolean
+    def sbtActiveSubproject(): Option[SbtSubproject]
+    def ivyRuntimeConf(): Option[String]
+    def ivyCompileConf(): Option[String]
+    def ivyTestConf(): Option[String]
+    def ivyFile(): Option[String]
+    def runtimeJars(): List[String]
+    def excludeRuntimeJars(): List[String]
+    def compileJars(): List[String]
+    def excludeCompileJars(): List[String]
+    def classDirs(): List[String]
+    def sources(): List[String]
+    def target(): Option[String]
+    def projectName(): Option[String]
+    def formatPrefs(): Map[Symbol, Any]
+    def disableIndexOnStartup(): Boolean
+  }
+
+  class SExpFormatHandler(config: SExpList) extends FormatHandler {
+    val m = config.toKeywordMap
+    private def getStr(name: String): Option[String] = m.get(key(name)) match {
+      case Some(StringAtom(s)) => Some(s)
+      case _ => None
+    }
+    private def getInt(name: String): Option[Int] = m.get(key(name)) match {
+      case Some(IntAtom(i)) => Some(i)
+      case _ => None
+    }
+    private def getBool(name: String): Boolean = m.get(key(name)) match {
+      case Some(TruthAtom()) => true
+      case _ => false
+    }
+    private def getStrList(name: String): List[String] = m.get(key(name)) match {
+      case Some(SExpList(items: Iterable[StringAtom])) => items.map { ea => ea.value }.toList
+      case _ => List()
+    }
+    def rootDir(): Option[String] = getStr(":root-dir")
+    def useSbt(): Boolean = getBool(":use-sbt")
+    def useMaven(): Boolean = getBool(":use-maven")
+    def useIvy(): Boolean = getBool(":use-ivy")
+    private def sbtSubprojects: List[Map[KeywordAtom, SExp]] = {
+      m.get(key(":sbt-subprojects")) match {
+        case Some(SExpList(items)) =>
+        items.flatMap {
+          case lst: SExpList => Some(lst.toKeywordMap)
+          case _ => None
+        }.toList
+        case _ => List()
+      }
+    }
+    private def sbtSubproject(projectName: String): Option[SbtSubproject] = {
+      val proj = sbtSubprojects.find { ea =>
+        ea.get(key(":name")) match {
+          case Some(StringAtom(str)) => str == projectName
+          case _ => false
+        }
+      }
+      proj match {
+        case Some(p) => {
+          Some(SbtSubproject(
+              p.get(key(":name")).getOrElse("NA").toString,
+              p.get(key(":deps")) match {
+		case Some(SExpList(items)) => items.map(_.toString).toList
+		case _ => List()
+              }))
+        }
+        case _ => None
+      }
+    }
+    def sbtActiveSubproject(): Option[SbtSubproject] = {
+      getStr(":sbt-active-subproject") match {
+        case Some(nm) => sbtSubproject(nm)
+        case _ => None
+      }
+    }
+    def ivyRuntimeConf(): Option[String] = getStr(":ivy-runtime-conf")
+    def ivyCompileConf(): Option[String] = getStr(":ivy-compile-conf")
+    def ivyTestConf(): Option[String] = getStr(":ivy-test-conf")
+    def ivyFile(): Option[String] = getStr(":ivy-file")
+    def runtimeJars(): List[String] = getStrList(":runtime-jars")
+    def excludeRuntimeJars(): List[String] = getStrList(":exclude-runtime-jars")
+    def compileJars(): List[String] = getStrList(":compile-jars")
+    def excludeCompileJars(): List[String] = getStrList(":exclude-compile-jars")
+    def classDirs(): List[String] = getStrList(":class-dirs")
+    def sources(): List[String] = getStrList(":sources")
+    def target(): Option[String] = getStr(":target")
+    def projectName(): Option[String] = getStr(":project-name")
+    def formatPrefs(): Map[Symbol, Any] = m.get(key(":formatting-prefs")) match {
+      case Some(list: SExpList) => {
+        list.toKeywordMap.map {
+          case (KeywordAtom(key), sexp: SExp) => (Symbol(key.substring(1)), sexp.toScala)
+        }
+      }
+      case _ => Map[Symbol, Any]()
+    }
+    def disableIndexOnStartup(): Boolean = getBool(":disable-index-on-startup")
+  }
+
   /**
   * Create a ProjectConfig instance from the given
   * SExp property list.
   */
-  def fromSExp(config: SExpList) = {
+  def fromSExp(sexp: SExpList): ProjectConfig = {
+    load(new SExpFormatHandler(sexp))
+  }
+
+  def load(conf: FormatHandler): ProjectConfig = {
+
     import ExternalConfigInterface._
 
-    val m = config.toKeywordMap
-
-    val rootDir: CanonFile = m.get(key(":root-dir")) match {
-      case Some(StringAtom(str)) => new File(str)
+    val rootDir: CanonFile = conf.rootDir match {
+      case Some(str) => new File(str)
       case _ => new File(".")
     }
 
@@ -34,139 +139,101 @@ object ProjectConfig {
     var target: Option[CanonFile] = None
     var projectName: Option[String] = None
 
-    m.get(key(":use-sbt")) match {
-      case Some(TruthAtom()) => {
-	val depDirs = m.get(key(":sbt-subproject-dependencies")) match {
-	  case Some(SExpList(deps)) => deps.map(_.toString)
-	  case _ => List[String]()
-	}
-        println("Using sbt configuration..")
-        val ext = getSbtConfig(rootDir, depDirs)
-        projectName = ext.projectName
-        sourceRoots ++= ext.sourceRoots
-        runtimeDeps ++= ext.runtimeDepJars
-        compileDeps ++= ext.compileDepJars
-        target = ext.target
-      }
-      case _ =>
+    if (conf.useSbt) {
+      println("Using sbt..")
+      val ext = getSbtConfig(rootDir, conf.sbtActiveSubproject)
+      projectName = ext.projectName
+      sourceRoots ++= ext.sourceRoots
+      runtimeDeps ++= ext.runtimeDepJars
+      compileDeps ++= ext.compileDepJars
+      target = ext.target
     }
 
-    m.get(key(":use-maven")) match {
-      case Some(TruthAtom()) => {
-        println("Using maven configuration..")
-        val ext = getMavenConfig(rootDir)
-        projectName = ext.projectName
-        sourceRoots ++= ext.sourceRoots
-        runtimeDeps ++= ext.runtimeDepJars
-        compileDeps ++= ext.compileDepJars
-        target = ext.target
-      }
-      case _ =>
+    if (conf.useMaven) {
+      println("Using maven..")
+      val ext = getMavenConfig(rootDir)
+      projectName = ext.projectName
+      sourceRoots ++= ext.sourceRoots
+      runtimeDeps ++= ext.runtimeDepJars
+      compileDeps ++= ext.compileDepJars
+      target = ext.target
     }
 
-    m.get(key(":use-ivy")) match {
-      case Some(TruthAtom()) => {
-        println("Using ivy configuration..")
-        val rConf = m.get(key(":ivy-runtime-conf")).map(_.toString)
-        val cConf = m.get(key(":ivy-compile-conf")).map(_.toString)
-        val tConf = m.get(key(":ivy-test-conf")).map(_.toString)
-        val file = m.get(key(":ivy-file")).map(s => new File(s.toString))
-        val ext = getIvyConfig(rootDir, file, rConf, cConf, tConf)
-        sourceRoots ++= ext.sourceRoots
-        runtimeDeps ++= ext.runtimeDepJars
-        compileDeps ++= ext.compileDepJars
-        compileDeps ++= ext.testDepJars
-        target = ext.target
-      }
-      case _ =>
+    if (conf.useIvy) {
+      println("Using ivy..")
+      val ext = getIvyConfig(
+        rootDir, conf.ivyFile.map { new File(_) },
+        conf.ivyRuntimeConf,
+        conf.ivyCompileConf,
+        conf.ivyTestConf)
+      sourceRoots ++= ext.sourceRoots
+      runtimeDeps ++= ext.runtimeDepJars
+      compileDeps ++= ext.compileDepJars
+      compileDeps ++= ext.testDepJars
+      target = ext.target
     }
 
-    m.get(key(":runtime-jars")) match {
-      case Some(SExpList(items)) => {
-        val jarsAndDirs = maybeFiles(items.map(_.toString), rootDir)
-        val toInclude = expandRecursively(rootDir, jarsAndDirs, isValidJar _)
-        println("Manually including " + toInclude.size + " run-time jars.")
-        runtimeDeps ++= toInclude
-      }
-      case _ =>
+    {
+      val jarsAndDirs = maybeFiles(conf.runtimeJars, rootDir)
+      val toInclude = expandRecursively(rootDir, jarsAndDirs, isValidJar _)
+      println("Manually including " + toInclude.size + " run-time jars.")
+      runtimeDeps ++= toInclude
     }
 
-    m.get(key(":exclude-runtime-jars")) match {
-      case Some(SExpList(items)) => {
-        val jarsAndDirs = maybeFiles(items.map(_.toString), rootDir)
-        val toExclude = expandRecursively(rootDir, jarsAndDirs, isValidJar _)
-        println("Manually excluding " + toExclude.size + " run-time jars.")
-        runtimeDeps --= toExclude
-      }
-      case _ =>
+    {
+      val jarsAndDirs = maybeFiles(conf.excludeRuntimeJars, rootDir)
+      val toExclude = expandRecursively(rootDir, jarsAndDirs, isValidJar _)
+      println("Manually excluding " + toExclude.size + " run-time jars.")
+      runtimeDeps --= toExclude
     }
 
-    m.get(key(":compile-jars")) match {
-      case Some(SExpList(items)) => {
-        val jarsAndDirs = maybeFiles(items.map(_.toString), rootDir)
-        val toInclude = expandRecursively(rootDir, jarsAndDirs, isValidJar _)
-        println("Manually including " + toInclude.size + " compile-time jars.")
-        compileDeps ++= toInclude
-      }
-      case _ =>
+    {
+      val jarsAndDirs = maybeFiles(conf.compileJars, rootDir)
+      val toInclude = expandRecursively(rootDir, jarsAndDirs, isValidJar _)
+      println("Manually including " + toInclude.size + " compile-time jars.")
+      compileDeps ++= toInclude
     }
 
-    m.get(key(":exclude-compile-jars")) match {
-      case Some(SExpList(items)) => {
-        val jarsAndDirs = maybeFiles(items.map(_.toString), rootDir)
-        val toExclude = expandRecursively(rootDir, jarsAndDirs, isValidJar _)
-        println("Manually excluding " + toExclude.size + " compile-time jars.")
-        compileDeps --= toExclude
-      }
-      case _ =>
+    {
+      val jarsAndDirs = maybeFiles(conf.excludeCompileJars, rootDir)
+      val toExclude = expandRecursively(rootDir, jarsAndDirs, isValidJar _)
+      println("Manually excluding " + toExclude.size + " compile-time jars.")
+      compileDeps --= toExclude
     }
 
-    m.get(key(":class-dirs")) match {
-      case Some(SExpList(items)) => {
-        val dirs = maybeDirs(items.map(_.toString), rootDir)
-        println("Manually including " + dirs.size + " class directories.")
-        classDirs ++= expand(rootDir, dirs, isValidClassDir _)
-      }
-      case _ =>
+    {
+      val dirs = maybeDirs(conf.classDirs, rootDir)
+      println("Manually including " + dirs.size + " class directories.")
+      classDirs ++= expand(rootDir, dirs, isValidClassDir _)
     }
 
-    m.get(key(":sources")) match {
-      case Some(SExpList(items)) => {
-        val dirs = maybeDirs(items.map(_.toString), rootDir)
-        println("Using source roots: " + dirs.mkString(", "))
-        sourceRoots ++= dirs
-      }
-      case _ =>
+    {
+      val dirs = maybeDirs(conf.sources, rootDir)
+      println("Using source roots: " + dirs.mkString(", "))
+      sourceRoots ++= dirs
     }
 
-    m.get(key(":target")) match {
-      case Some(StringAtom(targetDir)) => {
+    conf.target match {
+      case Some(targetDir) => {
         target = target.orElse(maybeDir(targetDir, rootDir))
       }
       case _ =>
     }
 
-    projectName = projectName.orElse(m.get(key(":project-name")).map(_.toString))
+    projectName = projectName.orElse(conf.projectName)
 
-    val formatPrefs: Map[Symbol, Any] = m.get(key(":formatting-prefs")) match {
-      case Some(list: SExpList) => {
-        list.toKeywordMap.map {
-          case (KeywordAtom(key), sexp: SExp) => (Symbol(key.substring(1)), sexp.toScala)
-        }
-      }
-      case _ => Map[Symbol, Any]()
-    }
+    val formatPrefs: Map[Symbol, Any] = conf.formatPrefs
     println("Using formatting preferences: " + formatPrefs)
-
 
     // Provide fix for 2.8.0 backwards compatibility
     val implicitNotFoundJar = new File("lib/implicitNotFound.jar")
-    assert (implicitNotFoundJar.exists, { System.err.println(
-	  "lib/implicitNotFound.jar not found! 2.8.0 compatibility may be broken.") })
+    assert(implicitNotFoundJar.exists, {
+	System.err.println(
+          "lib/implicitNotFound.jar not found! 2.8.0 compatibility may be broken.")
+      })
     compileDeps += implicitNotFoundJar
 
     // Provide some reasonable defaults..
-
     target = verifyTargetDir(rootDir, target, new File(rootDir, "target/classes"))
     println("Using target directory: " + target.getOrElse("ERROR"))
 
@@ -178,11 +245,17 @@ object ProjectConfig {
       }
     }
 
+    val scalaLibraryJar = new File("lib/scala-library.jar")
+    val scalaCompilerJar = new File("lib/scala-compiler.jar")
+
     new ProjectConfig(
       projectName,
+      scalaLibraryJar,
+      scalaCompilerJar,
       rootDir, sourceRoots, runtimeDeps,
       compileDeps, classDirs, target,
-      formatPrefs)
+      formatPrefs,
+      conf.disableIndexOnStartup)
 
   }
 
@@ -207,8 +280,8 @@ object ProjectConfig {
     }
   }
 
-  def nullConfig = new ProjectConfig(None, new File("."), List(),
-    List(), List(), List(), None, Map())
+  def nullConfig = new ProjectConfig(None, null, null, new File("."), List(),
+    List(), List(), List(), None, Map(), false)
 
   def getJavaHome(): Option[File] = {
     val javaHome: String = System.getProperty("java.home");
@@ -216,7 +289,7 @@ object ProjectConfig {
     else Some(new File(javaHome))
   }
 
-  def javaBootJars(): Set[CanonFile] = {
+  def javaBootJars: Set[CanonFile] = {
     val javaHome = getJavaHome();
     javaHome match {
       case Some(javaHome) => {
@@ -243,25 +316,36 @@ class DebugConfig(val classpath: String, val sourcepath: String) {}
 
 class ProjectConfig(
   val name: Option[String],
+  val scalaLibraryJar: CanonFile,  
+  val scalaCompilerJar: CanonFile,  
   val root: CanonFile,
   val sourceRoots: Iterable[CanonFile],
   val runtimeDeps: Iterable[CanonFile],
   val compileDeps: Iterable[CanonFile],
   val classDirs: Iterable[CanonFile],
   val target: Option[CanonFile],
-  formattingPrefsMap: Map[Symbol, Any]) {
+  formattingPrefsMap: Map[Symbol, Any],
+  val disableIndexOnStartup: Boolean) {
 
   val formattingPrefs = formattingPrefsMap.
   foldLeft(FormattingPreferences()) { (fp, p) =>
     p match {
       case ('alignParameters, value: Boolean) =>
       fp.setPreference(AlignParameters, value)
+      case ('alignSingleLineCaseStatements, value: Boolean) =>
+      fp.setPreference(AlignSingleLineCaseStatements, value)
+      case ('alignSingleLineCaseStatements_maxArrowIndent, value: Int) =>
+      fp.setPreference(AlignSingleLineCaseStatements.MaxArrowIndent, value)
       case ('compactStringConcatenation, value: Boolean) =>
       fp.setPreference(CompactStringConcatenation, value)
       case ('doubleIndentClassDeclaration, value: Boolean) =>
       fp.setPreference(DoubleIndentClassDeclaration, value)
       case ('formatXml, value: Boolean) =>
       fp.setPreference(FormatXml, value)
+      case ('indentLocalDefs, value: Boolean) =>
+      fp.setPreference(IndentLocalDefs, value)
+      case ('indentPackageBlocks, value: Boolean) =>
+      fp.setPreference(IndentPackageBlocks, value)
       case ('indentSpaces, value: Int) =>
       fp.setPreference(IndentSpaces, value)
       case ('preserveSpaceBeforeArguments, value: Boolean) =>
@@ -277,8 +361,14 @@ class ProjectConfig(
     }
   }
 
+  def scalaJars: Set[CanonFile] = Set(scalaCompilerJar, scalaLibraryJar)
+
   def compilerClasspathFilenames: Set[String] = {
-    (compileDeps ++ classDirs).map(_.getPath).toSet
+    (scalaJars ++ compileDeps ++ classDirs).map(_.getPath).toSet
+  }
+
+  def allFilesOnClasspath: Set[File] = {
+    ProjectConfig.javaBootJars ++ compilerClasspathFilenames.map(new File(_))
   }
 
   def sources: Set[CanonFile] = {
@@ -291,12 +381,10 @@ class ProjectConfig(
 
   def compilerArgs = List(
     "-classpath", compilerClasspath,
-    "-sourcepath", sourcepath,
     "-verbose")
 
   def builderArgs = List(
     "-classpath", compilerClasspath,
-    "-sourcepath", sourcepath,
     "-verbose",
     "-d", target.getOrElse(new File(root, "classes")).getPath,
     sourceFilenames.mkString(" "))
@@ -311,7 +399,7 @@ class ProjectConfig(
   }
 
   def runtimeClasspath: String = {
-    val deps = runtimeDeps ++ classDirs ++ target
+    val deps = scalaJars ++ runtimeDeps ++ classDirs ++ target
     val paths = deps.map(_.getPath).toSet
     paths.mkString(File.pathSeparator)
   }
