@@ -113,23 +113,23 @@ If nil, the new frame will use the existing `default-frame-alist' values."
   "The frame created for a new edit-server process, made local when
  then edit buffer is created")
 
-(defvar edit-server-clients '() 
+(defvar edit-server-clients '()
   "List of all client processes associated with the server process.")
 
-(defvar edit-server-phase nil 
+(defvar edit-server-phase nil
   "Symbol indicating the state of the HTTP request parsing.")
 
-(defvar edit-server-received nil 
-  "Number of bytes received so far in the client buffer. 
+(defvar edit-server-received nil
+  "Number of bytes received so far in the client buffer.
 Depending on the character encoding, may be different from the buffer length.")
 
-(defvar edit-server-request nil 
+(defvar edit-server-request nil
   "The HTTP request (GET, HEAD, POST) received.")
 
-(defvar edit-server-content-length nil 
+(defvar edit-server-content-length nil
   "The value gotten from the HTTP `Content-Length' header.")
 
-(defvar edit-server-url nil 
+(defvar edit-server-url nil
   "The value gotten from the HTTP `x-url' header.")
 
 ;; Mode magic
@@ -153,7 +153,7 @@ unmodified text is sent back instead.
 "
   :group 'edit-server)
 (define-key edit-server-text-mode-map (kbd "C-x #") 'edit-server-done)
-(define-key edit-server-text-mode-map (kbd "C-x C-s") 'edit-server-done)
+;(define-key edit-server-text-mode-map (kbd "C-x C-s") 'save-buffer)
 (define-key edit-server-text-mode-map (kbd "C-c C-c") 'edit-server-done)
 (define-key edit-server-text-mode-map (kbd "C-x C-c") 'edit-server-abort)
 
@@ -161,7 +161,7 @@ unmodified text is sent back instead.
 ;; Edit Server socket code
 ;
 
-(defun edit-server-start (&optional verbose) 
+(defun edit-server-start (&optional verbose)
   "Start the edit server.
 
 If argument VERBOSE is non-nil, logs all server activity to buffer `*edit-server-log*'.
@@ -208,10 +208,10 @@ If `edit-server-verbose' is non-nil, then STRING is also echoed to the message l
     (if (get-buffer edit-server-log-buffer-name)
         (with-current-buffer edit-server-log-buffer-name
           (goto-char (point-max))
-          (insert (current-time-string) 
-                  " " 
+          (insert (current-time-string)
+                  " "
                   (if (processp proc)
-                      (concat 
+                      (concat
                        (buffer-name (process-buffer proc))
                        ": ")
                     "") ; nil is not acceptable to 'insert
@@ -244,20 +244,20 @@ If `edit-server-verbose' is non-nil, then STRING is also echoed to the message l
   ;; requires us to keep track of the processing state.
   (with-current-buffer (process-buffer proc)
     (insert string)
-    (setq edit-server-received 
+    (setq edit-server-received
           (+ edit-server-received (string-bytes string)))
     (when (eq edit-server-phase 'wait)
       ;; look for a complete HTTP request string
       (save-excursion
         (goto-char (point-min))
         (when (re-search-forward "^\\([A-Z]+\\)\\s-+\\(\\S-+\\)\\s-+\\(HTTP/[0-9\.]+\\)\r?\n" nil t)
-          (edit-server-log proc 
-                           "Got HTTP `%s' request, processing in buffer `%s'..." 
+          (edit-server-log proc
+                           "Got HTTP `%s' request, processing in buffer `%s'..."
                            (match-string 1) (current-buffer))
           (setq edit-server-request (match-string 1))
           (setq edit-server-content-length nil)
           (setq edit-server-phase 'head))))
-    
+
     (when (eq edit-server-phase 'head)
       ;; look for "Content-length" header
       (save-excursion
@@ -280,12 +280,12 @@ If `edit-server-verbose' is non-nil, then STRING is also echoed to the message l
           ;; discard headers - keep only HTTP content in buffer
           (delete-region (point-min) (match-end 0))
           (setq edit-server-phase 'body))))
-    
+
     (when (eq edit-server-phase 'body)
       (if (and edit-server-content-length
                (> edit-server-content-length edit-server-received))
-          (edit-server-log proc 
-                           "Received %d bytes of %d ..." 
+          (edit-server-log proc
+                           "Received %d bytes of %d ..."
                            edit-server-received edit-server-content-length)
         ;; all content transferred - process request now
         (cond
@@ -346,7 +346,7 @@ If `edit-server-verbose' is non-nil, then STRING is also echoed to the message l
 Optional second argument BODY specifies the response content:
   - If nil, the HTTP response will have null content.
   - If a string, the string is sent as response content.
-  - Any other value will cause the contents of the current 
+  - Any other value will cause the contents of the current
     buffer to be sent.
 If optional third argument CLOSE is non-nil, then process PROC
 and its buffer are killed with `edit-server-kill-client'."
@@ -366,7 +366,7 @@ and its buffer are killed with `edit-server-kill-client'."
          ((not body) nil)
          (t (process-send-region proc (point-min) (point-max))))
         (process-send-eof proc)
-        (if close 
+        (if close
             (edit-server-kill-client proc))
         (edit-server-log proc "Editing done, sent HTTP OK response."))
     (message "edit-server-send-response: invalid proc (bug?)")))
