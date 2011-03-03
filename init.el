@@ -21,8 +21,10 @@
 
 ;; Put autosave files (ie #foo#) in one place, *not*
 ;; scattered all over the file system!
-(setq autosave-dir
- (concat user-specific-dir "/emacs_autosaves/"))
+
+
+
+(setq autosave-dir (concat user-specific-dir "/emacs_autosaves/"))
 (make-directory autosave-dir t)
 ;(setq auto-save-file-name-transforms `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat autosave-dir "\\1") t)))
 ;(setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
@@ -75,7 +77,9 @@
 (load-file (concat dotfiles-dir "/elpa/yaml-mode-0.0.5/yaml-mode.el"))
 (mapc (lambda (x) (add-to-list 'load-path (concat user-specific-dir x)))
       user-specific-loadpath-dirs)
-(mapc (lambda (x) (load-file (concat user-specific-dir x)))
+(mapc (lambda (x)
+        (if (file-exists-p (concat user-specific-dir x))
+            (load-file (concat user-specific-dir x))))
       user-specific-load-files)
 
 (require 'scala-mode-auto)
