@@ -22,8 +22,6 @@
 ;; Put autosave files (ie #foo#) in one place, *not*
 ;; scattered all over the file system!
 
-
-
 (setq autosave-dir (concat user-specific-dir "/emacs_autosaves/"))
 (make-directory autosave-dir t)
 ;(setq auto-save-file-name-transforms `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat autosave-dir "\\1") t)))
@@ -55,6 +53,7 @@
                                   "/elisp/snippet.el"
                                   "/elisp/uptime.el"
                                   "/elisp/sibilant.el"
+                                  "/geiser/elisp/geiser.el"
 ;                                  "/chicken-slime.el"
                                   "/anything/anything.el"
                                   "/anything/anything-match-plugin.el"
