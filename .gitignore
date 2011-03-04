@@ -4,3 +4,4 @@ rhtml/.gitignore
 emacs_backups
 emacs_autosaves
 ensime
+geiser
