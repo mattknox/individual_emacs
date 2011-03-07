@@ -190,4 +190,18 @@
                       (format "(enter! (file \"%s\") #:verbose)\n" buffer-file-name))
   (switch-to-scheme t))
 
+(defun count-words (&optional begin end)
+  "count words between BEGIN and END (region); if no region defined, count words in buffer"
+  (interactive "r")
+  (let ((b (if mark-active begin (point-min)))
+        (e (if mark-active end (point-max))))
+    (message "Word count: %s" (how-many "\\w+" b e))))
+
+(defun delete-this-file ()
+  (interactive)
+  (or (buffer-file-name) (error "no file is currently being edited"))
+  (when (yes-or-no-p "Really delete this file?")
+    (delete-file (buffer-file-name))
+    (kill-this-buffer)))
+
 (provide 'defuns)
