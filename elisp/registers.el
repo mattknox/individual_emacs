@@ -9,7 +9,8 @@
 ;; You should add registers here for the files you edit most often.
 
 (dolist (r `((?i (file . ,(concat user-specific-dir "/init.el")))
-             (?b (file . "~/.bashrc"))))
+             (?b (file . "~/.bashrc"))
+             (?g (file . "~/h/goaloc/README"))))
   (set-register (car r) (cadr r)))
 
 (provide 'starter-kit-registers)
