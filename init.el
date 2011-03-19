@@ -36,7 +36,7 @@
 (setq backup-directory-alist (list (cons "." backup-dir)))
 (make-directory backup-dir t)
 
-(setq user-specific-loadpath-dirs '("/arc" "/ensime/dist/elisp" "/rhtml" "/scala" "/zencoding" "/fuel_new" "/anything" "/elisp"))
+(setq user-specific-loadpath-dirs '("/arc" "/ensime/dist/elisp" "/rhtml" "/scala" "/zencoding" "/fuel_new" "/anything" "/elisp" "/mumamo"))
 
 (setq user-specific-load-files '( "/elisp/keybindings.el"
                                   "/elisp/defuns.el"
@@ -220,6 +220,10 @@
                                     (progn (setq old-fullscreen current-value)
                                            'fullboth)))))
 
+(require 'mumamo-fun)
+(setq mumamo-chunk-coloring 'submode-colored)
+;(add-to-list 'auto-mode-alist '("\\.rhtml\\'" . eruby-html-mumamo))
+;(add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-html-mumamo))
 
 (defvar programming-modes
   '(emacs-lisp-mode
