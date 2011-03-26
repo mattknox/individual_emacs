@@ -6,6 +6,7 @@
 
 (dolist (r `((?i (file . ,(concat user-specific-dir "/init.el")))
              (?b (file . "~/.bashrc"))
+             (?j (file . "~/h/ruby/script_jank.rb"))
              (?p (file . "~/promptbird/src/main/scala/com/twitter/promptbird/Main.scala"))
              (?g (file . "~/h/goaloc/README"))))
   (set-register (car r) (cadr r)))
