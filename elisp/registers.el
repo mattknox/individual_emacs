@@ -5,6 +5,7 @@
 ;; You should add registers here for the files you edit most often.
 
 (dolist (r `((?i (file . ,(concat user-specific-dir "/init.el")))
+             (?r (file . ,(concat user-specific-dir "/elisp/registers.el")))
              (?b (file . "~/.bashrc"))
              (?e (file . "~/h/prose/essays/README"))
              (?j (file . "~/h/ruby/script_jank.rb"))
