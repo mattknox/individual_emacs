@@ -7,6 +7,7 @@
 (dolist (r `((?i (file . ,(concat user-specific-dir "/init.el")))
              (?r (file . ,(concat user-specific-dir "/elisp/registers.el")))
              (?b (file . "~/.bashrc"))
+             (?d (file . "~/h/editor/README"))
              (?e (file . "~/h/prose/essays/README"))
              (?j (file . "~/h/ruby/script_jank.rb"))
              (?p (file . "~/promptbird/src/main/scala/com/twitter/promptbird/Main.scala"))
