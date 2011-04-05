@@ -41,6 +41,7 @@
 (setq user-specific-load-files '( "/elisp/keybindings.el"
                                   "/elisp/defuns.el"
                                   "/elisp/registers.el"
+                                  "/elisp/clojure-refactoring-mode.el"
                                   "/fuel_new/fu.el"
                                   "/ensime/dist/elisp/ensime.el"
                                   "/scala/scala-mode.el"
