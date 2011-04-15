@@ -8,6 +8,7 @@
              (?r (file . ,(concat user-specific-dir "/elisp/registers.el")))
              (?b (file . "~/.bashrc"))
              (?d (file . "~/h/editor/README"))
+             (?n (file . "~/h/nyclisp/desiderata"))
              (?e (file . "~/h/prose/essays/README"))
              (?j (file . "~/h/ruby/script_jank.rb"))
              (?p (file . "~/promptbird/src/main/scala/com/twitter/promptbird/Main.scala"))
