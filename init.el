@@ -46,6 +46,7 @@
                                   "/elisp/snippet.el"
                                   "/elisp/uptime.el"
                                   "/elisp/sibilant.el"
+                                  "/elisp/io-mode.el"
                                   "/fuel_new/fu.el"
                                   "/ensime/dist/elisp/ensime.el"
                                   "/scala/scala-mode.el"
