@@ -36,3 +36,4 @@
 (global-set-key (kbd "C-S-N") 'word-count)
 (global-set-key (kbd "A-F") 'ack)
 (global-set-key (kbd "<f1>") 'maximize-frame)
+(global-set-key (kbd "<S-backspace>") 'kill-region)
