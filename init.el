@@ -71,6 +71,7 @@
                       ("\\.scala$" . scala-mode)
                       ("\\.html.erb$" . rhtml-mode)
                       ("\\.rhtml$" . rhtml-mode)
+                      ("\\.pl$" . prolog-mode)
                       ("\\.yml$" . yaml-mode)
                       ("\\.rkt$" . scheme-mode)
                       ("\\.arc$" . arc-mode)))
