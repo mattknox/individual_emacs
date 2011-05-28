@@ -5,3 +5,4 @@ emacs_backups
 emacs_autosaves
 ensime
 geiser
+cucumber.el/.git/
