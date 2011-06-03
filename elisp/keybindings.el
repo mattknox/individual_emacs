@@ -38,3 +38,4 @@
 (global-set-key (kbd "<f1>") 'maximize-frame)
 (global-set-key (kbd "<S-backspace>") 'kill-region)
 (global-set-key (kbd "M-s") 'save-some-buffers)
+(global-set-key (kbd "C-=") 'universal-argument)
