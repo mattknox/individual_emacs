@@ -47,6 +47,7 @@
                                   "/elisp/uptime.el"
                                   "/elisp/sibilant.el"
                                   "/elisp/io-mode.el"
+                                  "/elisp/css.el"
                                   "/fuel_new/fu.el"
                                   "/ensime/dist/elisp/ensime.el"
                                   "/scala/scala-mode.el"

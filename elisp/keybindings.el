@@ -13,7 +13,7 @@
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-set-key "\C-x\C-g" 'magit-status)
 (global-set-key "\C-x\g" 'magit-status)
-(global-set-key "\M-t" 'textmate-goto-symbol)
+(global-set-key "\M-T" 'textmate-goto-symbol)
 (global-set-key [(control x) (control b)] 'electric-buffer-list)
 
 (global-set-key "\C-\M-h" 'backward-kill-word)
