@@ -36,7 +36,15 @@
 (setq backup-directory-alist (list (cons "." backup-dir)))
 (make-directory backup-dir t)
 
-(setq user-specific-loadpath-dirs '("/arc" "/ensime/dist/elisp" "/rhtml" "/scala" "/zencoding" "/fuel_new" "/anything" "/elisp" "/mumamo"))
+(setq user-specific-loadpath-dirs '("/arc"
+                                    "/ensime/dist/elisp"
+                                    "/rhtml"
+                                    "/scala"
+                                    "/zencoding"
+                                    "/fuel_new"
+                                    "/anything"
+                                    "/elisp"
+                                    "/mumamo"))
 
 (setq user-specific-load-files '( "/elisp/keybindings.el"
                                   "/elisp/defuns.el"
