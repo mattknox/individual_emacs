@@ -56,6 +56,7 @@
                                   "/elisp/sibilant.el"
                                   "/elisp/io-mode.el"
                                   "/elisp/css.el"
+                                  "/elisp/find-recursive.el"
                                   "/fuel_new/fu.el"
                                   "/ensime/dist/elisp/ensime.el"
                                   "/scala/scala-mode.el"
