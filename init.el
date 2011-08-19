@@ -44,6 +44,7 @@
                                     "/fuel_new"
                                     "/anything"
                                     "/elisp"
+                                    "/emacs-rails"
                                     "/mumamo"))
 
 (setq user-specific-load-files '( "/elisp/keybindings.el"
