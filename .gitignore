@@ -6,3 +6,4 @@ emacs_autosaves
 ensime
 geiser
 cucumber.el/.git/
+vendor/
