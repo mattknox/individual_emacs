@@ -163,6 +163,8 @@
           (lambda()
 	    (paredit-mode t)))
 
+(setq ruby-insert-encoding-magic-comment nil) ; disable ruby-mode's annoying comment insert
+
 (setq extra-path '("/opt/ruby-enterprise-1.8.7-2009.10/bin" "~/bin" "/opt/local/bin" "/opt/local/sbin" "/usr/local/mysql/bin" "/usr/local/bin"))
 (setenv "PATH" (concat (mapconcat 'identity extra-path ":") ":" (getenv "PATH")))
 (setq exec-path (append extra-path exec-path))
