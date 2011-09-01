@@ -44,7 +44,6 @@
                                     "/fuel_new"
                                     "/anything"
                                     "/elisp"
-                                    "/emacs-rails"
                                     "/mumamo"))
 
 (setq user-specific-load-files '( "/elisp/keybindings.el"
@@ -57,7 +56,6 @@
                                   "/elisp/sibilant.el"
                                   "/elisp/io-mode.el"
                                   "/elisp/css.el"
-                                  "/elisp/find-recursive.el"
                                   "/fuel_new/fu.el"
                                   "/ensime/dist/elisp/ensime.el"
                                   "/scala/scala-mode.el"
@@ -130,11 +128,13 @@
 ; FIXME: shouldn't need this here, put it in because of load order strangeness
 (defun run-coding-hook ()
   "Enable things that are convenient across all coding buffers"
-  (run-hooks ‘coding-hook)
+;  (run-hooks ‘coding-hook)
   (add-hook 'js2-mode-hook 'js2-custom-setup))
 
 (defun js2-custom-setup ()
   (moz-minor-mode 1))
+
+(setq ruby-insert-encoding-magic-comment nil)
 
 (setq js2-basic-offset 2)
 (add-hook 'sgml-mode-hook 'zencoding-mode)
@@ -162,8 +162,6 @@
 (add-hook 'clojure-mode-hook
           (lambda()
 	    (paredit-mode t)))
-
-(setq ruby-insert-encoding-magic-comment nil) ; disable ruby-mode's annoying comment insert
 
 (setq extra-path '("/opt/ruby-enterprise-1.8.7-2009.10/bin" "~/bin" "/opt/local/bin" "/opt/local/sbin" "/usr/local/mysql/bin" "/usr/local/bin"))
 (setenv "PATH" (concat (mapconcat 'identity extra-path ":") ":" (getenv "PATH")))
@@ -293,5 +291,5 @@
 (defvar *emacs-load-time* (destructuring-bind (hi lo ms) (current-time)
                             (- (+ hi lo) (+ (first *emacs-load-start*)
                                             (second *emacs-load-start*)))))
-(message "My .emacs loaded in %ds" *emacs-load-time*)
+(message "My .emacs loaded in %d s" *emacs-load-time*)
 

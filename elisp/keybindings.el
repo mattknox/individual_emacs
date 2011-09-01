@@ -7,10 +7,10 @@
 (global-set-key (kbd "C-M-u") 'backward-char)
 (global-set-key (kbd "C-n") 'next-line)
 (global-set-key (kbd "C-M-n") 'forward-char)
-(global-set-key (kbd "TAB")  'slime-complete-symbol)
 (global-set-key (kbd "C-TAB")  'lisp-indent-line)
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key "\C-x\C-m" 'smex)
+
 (global-set-key "\C-x\C-g" 'magit-status)
 (global-set-key "\C-x\g" 'magit-status)
 (global-set-key "\M-T" 'textmate-goto-symbol)
@@ -24,7 +24,7 @@
 (global-set-key "\M-W" 'kill-this-buffer)
 (global-set-key (kbd "A-w") 'kill-this-buffer)
 (global-set-key "\M-t" 'textmate-goto-file)
-(global-set-key "\M-#" 'comment-dwim) ; TODO: should this be paredit-comment-dwim
+(global-set-key "\M-#" 'comment-dwim) ; TODO: should this be paredit-comment-dwim?
 (global-set-key (kbd "M-DEL") 'backward-kill-sexp)
 (global-set-key "\C-xh" (lambda (url) (interactive "MUrl: ")
 			  (switch-to-buffer (url-retrieve-synchronously url))
@@ -40,5 +40,6 @@
 (global-set-key (kbd "M-s") 'save-some-buffers)
 (global-set-key (kbd "M-r") 'ido-find-alternate-file)
 (global-set-key (kbd "C-=") 'universal-argument)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'execute-extended-command)
+
+;; mode-specific keybindings
+(define-key paredit-mode-map (kbd "TAB")  'slime-complete-symbol)
