@@ -41,5 +41,5 @@
 (global-set-key (kbd "M-r") 'ido-find-alternate-file)
 (global-set-key (kbd "C-=") 'universal-argument)
 
-;; mode-specific keybindings
+;; mode-specific keybindings: maybe move these to their own file(s)?
 (define-key paredit-mode-map (kbd "TAB")  'slime-complete-symbol)
