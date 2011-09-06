@@ -42,4 +42,11 @@
 (global-set-key (kbd "C-=") 'universal-argument)
 
 ;; mode-specific keybindings: maybe move these to their own file(s)?
-(eval-after-load "paredit" '(define-key paredit-mode-map (kbd "TAB")  'slime-complete-symbol))
+(eval-after-load "paredit" '(define-key paredit-mode-map (kbd "TAB") 'slime-complete-symbol))
+(eval-after-load "paredit"
+  '(define-key paredit-mode-map (kbd ")")
+     'paredit-close-parenthesis))
+(eval-after-load "paredit"
+  '(define-key paredit-mode-map (kbd "M-)")
+     'paredit-close-parenthesis-and-newline))
+

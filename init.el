@@ -208,13 +208,6 @@
 ;; (shell-command
 ;; "screen -r -X select `cat ~/tmp/emacsclient-caller`")))
 
-(eval-after-load "paredit"
-  '(define-key paredit-mode-map (kbd ")")
-     'paredit-close-parenthesis))
-(eval-after-load "paredit"
-  '(define-key paredit-mode-map (kbd "M-)")
-     'paredit-close-parenthesis-and-newline))
-
 (set-frame-parameter (selected-frame) 'alpha '(98 96))
 (add-to-list 'default-frame-alist '(alpha 98 96))
 (setq save-abbrevs nil) ; don't bug me about saving ~/.abbrev_defs
