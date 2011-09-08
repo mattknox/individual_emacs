@@ -267,6 +267,7 @@
                                 (comint-send-string "*moz-buffer*" "this.BrowserReload()\n"))))
 
 (eval-when-compile (require 'cl))
+(smex-initialize)
 (defun toggle-transparency ()
   (interactive)
   (if (/=
