@@ -50,5 +50,6 @@
   '(define-key paredit-mode-map (kbd "M-)")
      'paredit-close-parenthesis-and-newline))
 
-(define-key term-mode-map (kbd "A-h") 'term-char-mode)
+;(define-key term-mode-map (kbd "A-h") 'term-char-mode)
+
 
