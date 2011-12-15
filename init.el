@@ -37,7 +37,7 @@
 (make-directory backup-dir t)
 
 (setq user-specific-loadpath-dirs '("/arc"
-                                    "/ensime/dist/elisp"
+;                                    "/ensime/dist/elisp"
                                     "/rhtml"
                                     "/scala"
                                     "/zencoding"
@@ -57,7 +57,7 @@
                                   "/elisp/io-mode.el"
                                   "/elisp/css.el"
                                   "/fuel_new/fu.el"
-                                  "/ensime/dist/elisp/ensime.el"
+;                                  "/ensime/dist/elisp/ensime.el"
                                   "/scala/scala-mode.el"
                                   "/arc/inferior-arc.el"
                                   "/arc/arc.el"
@@ -216,7 +216,7 @@
 (add-hook 'rhtml-mode-hook
      	  (lambda () (rinari-launch)))
 
-(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+;(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
 (autoload 'chicken-slime "chicken-slime" "SWANK backend for Chicken" t)
 (setq swank-chicken-path "~/bin/scm/swank-chicken.scm")

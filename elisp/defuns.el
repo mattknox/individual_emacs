@@ -204,4 +204,19 @@
     (delete-file (buffer-file-name))
     (kill-this-buffer)))
 
+(defun move-end-of-line-or-next-line ()
+  (interactive)
+  (if (eolp)
+      (next-line)
+    (move-end-of-line nil)))
+;(global-set-key "\C-e" 'move-end-of-line-or-next-line)
+
+(defun move-start-of-line-or-prev-line ()
+  (interactive)
+  (if (bolp)
+      (previous-line)
+    (move-beginning-of-line nil)))
+;(global-set-key "\C-a" 'move-start-of-line-or-prev-line)
+
+
 (provide 'defuns)
