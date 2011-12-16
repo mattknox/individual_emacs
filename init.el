@@ -28,6 +28,8 @@
 ;(setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
 ;(setq auto-save-file-name-transforms `((".*\\([^/]*\\)" "~/.emacs.d/matt/emacs_autosaves/\\1" t)))
 ; yet another failed attempt at fixing auto-save-file-name-transforms
+(setq make-backup-files nil)
+(setq auto-save-default nil)
 
 ;; Put backup files (ie foo~) in one place too. (The backup-directory-alist
 ;; list contains regexp=>directory mappings; filenames matching a regexp are
@@ -61,7 +63,7 @@
                                   "/scala/scala-mode.el"
                                   "/arc/inferior-arc.el"
                                   "/arc/arc.el"
-                                  "/tuareg-mode-1.45.6/tuareg.el"
+;                                  "/tuareg-mode-1.45.6/tuareg.el"
                                   "/haskell-mode-2.7.0/haskell-mode.el"
                                   "/coffee-mode/coffee-mode.el"
                                   "/twittering-mode/twittering-mode.el"
@@ -73,8 +75,8 @@
                                   "/anything/anything-config.el"))
 
 (setq mode-list-map '(("\\.hs$" . haskell-mode)
-                      ("\\.ml[ily]?$" . tuareg-mode)
-                      ("\\.topml$" . tuareg-mode)
+;                      ("\\.ml[ily]?$" . tuareg-mode)
+;                      ("\\.topml$" . tuareg-mode)
                       ("\.coffee$" . coffee-mode)
                       ("\\.js$" . js2-mode)
                       ("\\.scala$" . scala-mode)

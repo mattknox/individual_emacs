@@ -39,7 +39,8 @@
 (global-set-key (kbd "<S-backspace>") 'kill-region)
 (global-set-key (kbd "M-s") 'save-some-buffers)
 (global-set-key (kbd "M-r") 'ido-find-alternate-file)
-(global-set-key (kbd "C-=") 'universal-argument)
+(global-set-key (kbd "C-#") 'universal-argument)
+; (global-set-key (kbd "A-tab") 'slime-eval-print-last-expression)
 
 ;; mode-specific keybindings: maybe move these to their own file(s)?
 (eval-after-load "paredit" '(define-key paredit-mode-map (kbd "TAB") 'slime-complete-symbol))
@@ -51,5 +52,3 @@
      'paredit-close-parenthesis-and-newline))
 
 ;(define-key term-mode-map (kbd "A-h") 'term-char-mode)
-
-
