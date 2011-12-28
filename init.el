@@ -283,7 +283,7 @@
                :url "http://github.com/yoshiki/yaml-mode.git"
                :features yaml-mode)))
 
-(el-get 'sync)
+;(el-get 'sync)
 ; Text-mate style indenting
 (defadvice yank (after indent-region activate)
   (if (member major-mode programming-modes)
