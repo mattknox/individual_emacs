@@ -193,7 +193,9 @@
 ;; this is necessary for emacs 23, because it uses the alt/option key for meta.
 (setq mac-command-modifier 'meta)
 (setq mac-option-modifier 'alt)
-(set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-12-*-*-*-m-0-iso10646-")
+;(set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-12-*-*-*-m-0-iso10646-")
+(set-frame-font "Menlo-12")
+;(load-theme 'tango)
 ; use default Mac browser
 (setq browse-url-browser-function 'browse-url-default-macosx-browser)
 
@@ -255,6 +257,33 @@
     nxhtml-mode)
   "List of modes related to programming")
 
+(setq el-get-sources
+      '((:name ruby-mode
+               :type elpa
+               :load "ruby-mode.el")
+        (:name inf-ruby  :type elpa)
+        (:name ruby-compilation :type elpa)
+        (:name css-mode :type elpa)
+        (:name textmate
+               :type git
+               :url "git://github.com/defunkt/textmate.el"
+               :load "textmate.el")
+        (:name rvm
+               :type git
+               :url "http://github.com/djwhitt/rvm.el.git"
+               :load "rvm.el"
+               :compile ("rvm.el")
+               :after (lambda() (rvm-use-default)))
+        (:name rhtml
+               :type git
+               :url "https://github.com/eschulte/rhtml.git"
+               :features rhtml-mode)
+        (:name yaml-mode
+               :type git
+               :url "http://github.com/yoshiki/yaml-mode.git"
+               :features yaml-mode)))
+
+(el-get 'sync)
 ; Text-mate style indenting
 (defadvice yank (after indent-region activate)
   (if (member major-mode programming-modes)
