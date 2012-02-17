@@ -15,6 +15,7 @@
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
       user-specific-dir (concat dotfiles-dir user-login-name))
 
+(setq mouse-drag-copy-region t)
 ;; (custom-set-variables
 ;;   '(auto-save-file-name-transforms '((".*" "~/.emacs.d/backups/" t)))
 ;;   '(backup-directory-alist '(("." . "~/.emacs.d/backups/"))))
@@ -317,4 +318,3 @@
                             (- (+ hi lo) (+ (first *emacs-load-start*)
                                             (second *emacs-load-start*)))))
 (message "My .emacs loaded in %d s" *emacs-load-time*)
-

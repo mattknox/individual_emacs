@@ -32,6 +32,10 @@
 			  (html-mode)))
 
 (global-set-key [C-tab] 'other-window)
+(global-set-key (kbd "<C-left>")  'windmove-left)
+(global-set-key (kbd "<C-right>") 'windmove-right)
+(global-set-key (kbd "<C-up>")    'windmove-up)
+(global-set-key (kbd "<C-down>")  'windmove-down)
 (global-set-key "\C-c\C-g" 'gist-buffer-confirm)
 (global-set-key (kbd "C-S-N") 'word-count)
 (global-set-key (kbd "A-F") 'ack)
@@ -39,7 +43,16 @@
 (global-set-key (kbd "<S-backspace>") 'kill-region)
 (global-set-key (kbd "M-s") 'save-some-buffers)
 (global-set-key (kbd "M-r") 'ido-find-alternate-file)
+
+(global-set-key (kbd "M-c") 'copy-region-as-kill)
+(global-set-key (kbd "M-C") 'capitalize-word)
+(global-set-key (kbd "M-v") 'yank)
+(global-set-key (kbd "M-V") 'scroll-down)
+(global-set-key (kbd "M-X") 'kill-region)
+
+
 (global-set-key (kbd "C-#") 'universal-argument)
+
 ; (global-set-key (kbd "A-tab") 'slime-eval-print-last-expression)
 
 ;; mode-specific keybindings: maybe move these to their own file(s)?
