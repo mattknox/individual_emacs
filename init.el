@@ -15,6 +15,7 @@
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
       user-specific-dir (concat dotfiles-dir user-login-name))
 
+(setq mouse-drag-copy-region t)
 ;; (custom-set-variables
 ;;   '(auto-save-file-name-transforms '((".*" "~/.emacs.d/backups/" t)))
 ;;   '(backup-directory-alist '(("." . "~/.emacs.d/backups/"))))
@@ -28,6 +29,8 @@
 ;(setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
 ;(setq auto-save-file-name-transforms `((".*\\([^/]*\\)" "~/.emacs.d/matt/emacs_autosaves/\\1" t)))
 ; yet another failed attempt at fixing auto-save-file-name-transforms
+(setq make-backup-files nil)
+(setq auto-save-default nil)
 
 ;; Put backup files (ie foo~) in one place too. (The backup-directory-alist
 ;; list contains regexp=>directory mappings; filenames matching a regexp are
@@ -37,7 +40,7 @@
 (make-directory backup-dir t)
 
 (setq user-specific-loadpath-dirs '("/arc"
-                                    "/ensime/dist/elisp"
+;                                    "/ensime/dist/elisp"
                                     "/rhtml"
                                     "/scala"
                                     "/zencoding"
@@ -57,11 +60,11 @@
                                   "/elisp/io-mode.el"
                                   "/elisp/css.el"
                                   "/fuel_new/fu.el"
-                                  "/ensime/dist/elisp/ensime.el"
+;                                  "/ensime/dist/elisp/ensime.el"
                                   "/scala/scala-mode.el"
                                   "/arc/inferior-arc.el"
                                   "/arc/arc.el"
-                                  "/tuareg-mode-1.45.6/tuareg.el"
+;                                  "/tuareg-mode-1.45.6/tuareg.el"
                                   "/haskell-mode-2.7.0/haskell-mode.el"
                                   "/coffee-mode/coffee-mode.el"
                                   "/twittering-mode/twittering-mode.el"
@@ -73,8 +76,8 @@
                                   "/anything/anything-config.el"))
 
 (setq mode-list-map '(("\\.hs$" . haskell-mode)
-                      ("\\.ml[ily]?$" . tuareg-mode)
-                      ("\\.topml$" . tuareg-mode)
+;                      ("\\.ml[ily]?$" . tuareg-mode)
+;                      ("\\.topml$" . tuareg-mode)
                       ("\.coffee$" . coffee-mode)
                       ("\\.js$" . js2-mode)
                       ("\\.scala$" . scala-mode)
@@ -191,7 +194,9 @@
 ;; this is necessary for emacs 23, because it uses the alt/option key for meta.
 (setq mac-command-modifier 'meta)
 (setq mac-option-modifier 'alt)
-(set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-12-*-*-*-m-0-iso10646-")
+;(set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-12-*-*-*-m-0-iso10646-")
+(set-frame-font "Menlo-12")
+;(load-theme 'tango)
 ; use default Mac browser
 (setq browse-url-browser-function 'browse-url-default-macosx-browser)
 
@@ -216,7 +221,7 @@
 (add-hook 'rhtml-mode-hook
      	  (lambda () (rinari-launch)))
 
-(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+;(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
 (autoload 'chicken-slime "chicken-slime" "SWANK backend for Chicken" t)
 (setq swank-chicken-path "~/bin/scm/swank-chicken.scm")
@@ -253,6 +258,33 @@
     nxhtml-mode)
   "List of modes related to programming")
 
+(setq el-get-sources
+      '((:name ruby-mode
+               :type elpa
+               :load "ruby-mode.el")
+        (:name inf-ruby  :type elpa)
+        (:name ruby-compilation :type elpa)
+        (:name css-mode :type elpa)
+        (:name textmate
+               :type git
+               :url "git://github.com/defunkt/textmate.el"
+               :load "textmate.el")
+        (:name rvm
+               :type git
+               :url "http://github.com/djwhitt/rvm.el.git"
+               :load "rvm.el"
+               :compile ("rvm.el")
+               :after (lambda() (rvm-use-default)))
+        (:name rhtml
+               :type git
+               :url "https://github.com/eschulte/rhtml.git"
+               :features rhtml-mode)
+        (:name yaml-mode
+               :type git
+               :url "http://github.com/yoshiki/yaml-mode.git"
+               :features yaml-mode)))
+
+;(el-get 'sync)
 ; Text-mate style indenting
 (defadvice yank (after indent-region activate)
   (if (member major-mode programming-modes)
@@ -286,4 +318,3 @@
                             (- (+ hi lo) (+ (first *emacs-load-start*)
                                             (second *emacs-load-start*)))))
 (message "My .emacs loaded in %d s" *emacs-load-time*)
-

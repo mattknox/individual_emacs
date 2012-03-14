@@ -1438,7 +1438,7 @@ If found, return the actual text of the keyword or operator."
 (defun tuareg-find-match ()
   (tuareg-find-kwop tuareg-find-kwop-regexp))
 
-(defconst tuareg-find-,-match-regexp
+(defconst tuareg-find-«-match-regexp
   (tuareg-make-find-kwop-regexp
    "\\<\\(and\\|match\\|begin\\|else\\|exception\\|then\\|try\\|with\\|or\\|fun\\|function\\|let\\|do\\)\\>\\|->\\|[[{(]"))
 (defun tuareg-find-,-match ()
