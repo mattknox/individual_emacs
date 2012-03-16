@@ -1,4 +1,5 @@
 (defvar *emacs-load-start* (current-time))
+; get all this stuff into autoloads for faster booting of emacs
 (setq swank-clojure-classpath '("/usr/local//Cellar/clojure/1.2.0/clojure.jar"))
 (defvar slime-lisp-implementations
    '((cmucl ("/usr/local/bin/lisp") :coding-system iso-8859-1-unix)
