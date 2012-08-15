@@ -169,10 +169,14 @@
       (insert "{}")
       (backward-char 1))))
 
-(defun kill-buffer-and-close-frame ()
+(defun kill-buffer-and-maybe-close-frame ()
+  "definitely kill this buffer, close frame if >2 frames exist"
   (interactive)
   (kill-this-buffer)
-  (delete-window))
+  (setq number-of-frames 0)
+  (walk-windows (lambda (x) (setq number-of-frames (+ 1 number-of-frames))))
+  (if (< 2 number-of-frames)
+      (delete-window)))
 
 ;; this is from rails-lib.el in the emacs-rails package
 (defun string-join (separator strings)
