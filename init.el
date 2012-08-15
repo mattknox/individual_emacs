@@ -87,6 +87,7 @@
                       ("\\.pl$" . prolog-mode)
                       ("\\.yml$" . yaml-mode)
                       ("\\.rkt$" . scheme-mode)
+                      ("\\.cljs$" . clojure-mode)
                       ("\\.arc$" . arc-mode)))
 
 (mapc (lambda (x) (add-to-list 'auto-mode-alist x))
@@ -173,6 +174,7 @@
 
 (setq kill-whole-line t)
 (setq ido-case-fold nil)
+(setq ido-use-url-at-point nil)
 (column-number-mode)
 
 (setq ns-pop-up-frames nil)
