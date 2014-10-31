@@ -119,7 +119,7 @@
 ;(require 'w3m-load)
 ;(require 'w3m-e21)
 ;(provide 'w3m-e23)
-(require 'textmate)
+;(require 'textmate)
 (require 'rdebug)
 (require 'edit-server)
 (setq edit-server-new-frame nil)

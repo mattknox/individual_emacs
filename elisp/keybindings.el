@@ -67,3 +67,12 @@
      'paredit-close-parenthesis-and-newline))
 
 ;(define-key term-mode-map (kbd "A-h") 'term-char-mode)
+(defun switch-to-minibuffer ()
+  "Switch to minibuffer window."
+  (interactive)
+  (if (active-minibuffer-window)
+      (select-window (active-minibuffer-window))
+    (error "Minibuffer is not active")))
+
+(global-set-key "\C-co" 'switch-to-minibuffer) ;; Bind to `C-c o'
+(global-set-key "\C-c\C-o" 'switch-to-minibuffer) ;; Bind to `C-c C-o'
